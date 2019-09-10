@@ -1,0 +1,3 @@
+D:/Profiles/kjm7088/source/repos/KylerMcQuillan_309_2191/include/glm/out/build/x64-Debug/CMakeFiles/glm_dummy.dir
+D:/Profiles/kjm7088/source/repos/KylerMcQuillan_309_2191/include/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/Profiles/kjm7088/source/repos/KylerMcQuillan_309_2191/include/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
