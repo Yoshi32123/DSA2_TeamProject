@@ -67,7 +67,7 @@ void AppClass::InitOpenGL(void)
 }
 void AppClass::InitShaders(void)
 {
-	m_uShaderProgramID = LoadShaders("Shaders//BasicColor.vs", "Shaders//BasicColor.fs");
+	m_uShaderProgramID = LoadShaders("Shaders//BasicColor.vs", "Shaders//BasicColorComplimentary.fs");
 	glUseProgram(m_uShaderProgramID);
 }
 void AppClass::InitVariables(void)
@@ -115,6 +115,21 @@ void AppClass::ProcessKeyboard(sf::Event a_event)
 		m_v3Color = glm::vec3(0.0f, 0.0f, 1.0f);
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0))
 		m_v3Color = glm::vec3(-1.0f, -1.0f, -1.0f);
+	else if (sf::Event::KeyPressed) //change the shader23
+	{
+		GLuint Complimentary = glGetUniformLocation(m_uShaderProgramID, "Complimentary");
+		m_Compliment = !m_Compliment;
+
+		if (m_Compliment)
+		{
+			glUniform1i(Complimentary, 1);
+		}
+		else
+		{
+			glUniform1i(Complimentary, 0);
+		}
+	}
+	
 }
 void AppClass::Display(void)
 {
