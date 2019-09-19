@@ -17,6 +17,35 @@ void MyMesh::GenerateCircle(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		then call the AddTri function to generate a_nSubdivision number of faces
 	*/
 
+	// creating a list to store vertices
+	std::vector<vector3> vertexCreation;
+	
+	// origin vector
+	glm::vec3 originVec = vector3(0.0f, 0.0f, 0.0f);
+	vertexCreation.push_back(originVec);
+
+	// adding vertices to a creation list with correct radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float constant = (2 * PI / a_nSubdivisions);
+		vertexCreation.push_back(a_fRadius * vector3(cos(i * constant), sin(i * constant), 0.0f));
+	}
+
+	// Adding Tri's
+	for (int i = 1; i <= a_nSubdivisions; i++)
+	{
+		// last tri
+		if (i == a_nSubdivisions)
+		{
+			AddTri(vertexCreation[0], vertexCreation[i], vertexCreation[1]);
+		}
+		// any other tri
+		else 
+		{
+			AddTri(vertexCreation[0], vertexCreation[i], vertexCreation[i + 1]);
+		}
+	}
+
 	// Adding information about color
 	CompleteMesh(a_v3Color);
 	CompileOpenGL3X();
