@@ -35,34 +35,65 @@ void Application::Display(void)
 	//matrix4 m4Model = m4Translate * m4Scale;
 	//matrix4 m4Model = m4Scale * m4Translate;
 
-
-
-	// My Work Here:
-
 	// vector for storing models
 	std::vector<matrix4*> cubeStorage;
 	
 	matrix4 m4Model = IDENTITY_M4;
 	static float fPosX = 0.0f;
 
-	
-
-
-
-
 	m4Model = glm::translate(IDENTITY_M4, vector3(fPosX, 0.0f, 0.0f));
 
-	m_pMesh->Render(m4Projection, m4View, m4Model);
+	// render calls
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-2.0f, 0.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-1.0f, 0.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 1.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 5.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-3.0f, 7.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-4.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-4.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-5.0f, 1.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-5.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-5.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-2.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-2.0f, 6.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-2.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-2.0f, 5.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-1.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-1.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-1.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(-1.0f, 5.0f, 0.0f)));
+
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(0.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(0.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(0.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(0.0f, 5.0f, 0.0f)));
+
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(2.0f, 0.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(1.0f, 0.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 1.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 5.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(3.0f, 7.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(4.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(4.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(5.0f, 1.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(5.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(5.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(2.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(2.0f, 6.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(2.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(2.0f, 5.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(1.0f, 2.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(1.0f, 3.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(1.0f, 4.0f, 0.0f)));
+	m_pMesh->Render(m4Projection, m4View, m4Model * glm::translate(IDENTITY_M4, vector3(1.0f, 5.0f, 0.0f)));
+
 	fPosX += 0.1f;
-	
-
-
-
-
-
-
-
-
 
 
 	// draw a skybox
