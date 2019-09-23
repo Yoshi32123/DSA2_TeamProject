@@ -32,6 +32,7 @@ void Application::Display(void)
 	value += 0.01f;
 	*/
 
+
 	//matrix4 m4Model = m4Translate * m4Scale;
 	//matrix4 m4Model = m4Scale * m4Translate;
 
