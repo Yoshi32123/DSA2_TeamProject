@@ -365,6 +365,7 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 		{
 			AddTri(bottomCircle[0], bottomCircle[1], bottomCircle[i]);
 			AddTri(topCircle[0], topCircle[i], topCircle[1]);
+			AddQuad(bottomCircle[i], bottomCircle[1], topCircle[i], topCircle[1]);
 		}
 		// any other tri
 		else
@@ -403,7 +404,56 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
+	//GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
+
+	// creating a list to store vertices
+	std::vector<vector3> bottomCircle;
+	std::vector<vector3> bottomInnerCircle;
+	std::vector<vector3> topCircle;
+	std::vector<vector3> topInnerCircle;
+
+	// origin vectors
+	glm::vec3 addHeight = vector3(0, 0, a_fHeight);
+	glm::vec3 originVec = vector3(0.0f, 0.0f, 0.0f);
+	//bottomCircle.push_back(originVec);
+	//topCircle.push_back(addHeight);
+
+	// adding vertices to a creation list with correct radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float constant = (2 * PI / a_nSubdivisions);
+		bottomCircle.push_back(a_fOuterRadius * vector3(cos(i * constant), sin(i * constant), 0.0f));
+		bottomInnerCircle.push_back(a_fInnerRadius * vector3(cos(i * constant), sin(i * constant), 0.0f));
+		topCircle.push_back(vector3(a_fOuterRadius * cos(i * constant), a_fOuterRadius * sin(i * constant), a_fHeight));
+		topInnerCircle.push_back(vector3(a_fInnerRadius * cos(i * constant), a_fInnerRadius * sin(i * constant), a_fHeight));
+	}
+
+	// Adding Quads's
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		// if statement catches last iteration bridge to first index
+		if (i == a_nSubdivisions - 1)
+		{
+			// adds top and bottom
+			AddQuad(bottomCircle[0], bottomCircle[i], bottomInnerCircle[0], bottomInnerCircle[i]);
+			AddQuad(topCircle[i], topCircle[0], topInnerCircle[i], topInnerCircle[0]);
+
+			// adds side
+			AddQuad(bottomCircle[i], bottomCircle[0], topCircle[i], topCircle[0]);
+			AddQuad(bottomInnerCircle[0], bottomInnerCircle[i], topInnerCircle[0], topInnerCircle[i]);
+		}
+		else
+		{
+			// adds top and bottom
+			AddQuad(bottomCircle[i + 1], bottomCircle[i], bottomInnerCircle[i + 1], bottomInnerCircle[i]);
+			AddQuad(topCircle[i], topCircle[i + 1], topInnerCircle[i], topInnerCircle[i + 1]);
+
+			// adds sides
+			AddQuad(bottomCircle[i], bottomCircle[i + 1], topCircle[i], topCircle[i + 1]);
+			AddQuad(bottomInnerCircle[i + 1], bottomInnerCircle[i], topInnerCircle[i + 1], topInnerCircle[i]);
+		}
+		
+	}
 	// -------------------------------
 
 	// Adding information about color
@@ -460,7 +510,68 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	//GenerateCube(a_fRadius * 2.0f, a_v3Color);
+
+	// creating a list to store vertices
+	std::vector<vector3> centerCircle;
+	std::vector<vector3> upper1Circle;
+	std::vector<vector3> upper2Circle;
+	std::vector<vector3> bottom1Circle;
+	std::vector<vector3> bottom2Circle;
+
+	// standards
+	glm::vec3 bottomVertex = vector3(0.0f, 0.0f, 0.0f);
+	glm::vec3 topVertex = vector3(0.0f, 0.0f, 2 * a_fRadius);
+	float differential = 2 * a_fRadius / 6;
+
+	// adding vertices to a creation list with correct radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float constant = (2 * PI / a_nSubdivisions);
+		centerCircle.push_back(vector3(a_fRadius * cos(i * constant), a_fRadius * sin(i * constant), a_fRadius));
+
+		float dif1 = (4 * a_fRadius / 5);
+		upper1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 4));
+		bottom1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 2));
+
+		float dif2 = (2 * a_fRadius / 4);
+		upper2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 5));
+		bottom2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 1));
+	}
+
+	// adding in the sides
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		if (i == a_nSubdivisions - 1)
+		{
+			// adding top and bottom faces made of tri's
+			// adding top and bottom faces made of tri's
+			AddTri(upper2Circle[i], upper2Circle[0], topVertex);
+			AddTri(bottom2Circle[0], bottom2Circle[i], bottomVertex);
+
+			// adding quads between layers
+			AddQuad(bottom1Circle[i], bottom1Circle[0], centerCircle[i], centerCircle[0]);
+			AddQuad(centerCircle[i], centerCircle[0], upper1Circle[i], upper1Circle[0]);
+
+			AddQuad(bottom2Circle[i], bottom2Circle[0], bottom1Circle[i], bottom1Circle[0]);
+			AddQuad(upper1Circle[i], upper1Circle[0], upper2Circle[i], upper2Circle[0]);
+		}
+		else
+		{
+			// adding top and bottom faces made of tri's
+			AddTri(upper2Circle[i], upper2Circle[i + 1], topVertex);
+			AddTri(bottom2Circle[i + 1], bottom2Circle[i], bottomVertex);
+
+			// adding quads between layers
+			AddQuad(bottom1Circle[i], bottom1Circle[i + 1], centerCircle[i], centerCircle[i + 1]);
+			AddQuad(centerCircle[i], centerCircle[i + 1], upper1Circle[i], upper1Circle[i + 1]);
+
+			AddQuad(bottom2Circle[i], bottom2Circle[i + 1], bottom1Circle[i], bottom1Circle[i + 1]);
+			AddQuad(upper1Circle[i], upper1Circle[i + 1], upper2Circle[i], upper2Circle[i + 1]);
+		}
+	}
+
+
 	// -------------------------------
 
 	// Adding information about color
