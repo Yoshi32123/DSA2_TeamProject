@@ -503,8 +503,8 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		GenerateCube(a_fRadius * 2.0f, a_v3Color);
 		return;
 	}
-	if (a_nSubdivisions > 6)
-		a_nSubdivisions = 6;
+	if (a_nSubdivisions > 20)
+		a_nSubdivisions = 20;
 
 	Release();
 	Init();
@@ -520,6 +520,7 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	std::vector<vector3> bottom2Circle;
 
 	// standards
+	glm::vec3 origin = vector3(0.0f, 0.0f, a_fRadius);
 	glm::vec3 bottomVertex = vector3(0.0f, 0.0f, 0.0f);
 	glm::vec3 topVertex = vector3(0.0f, 0.0f, 2 * a_fRadius);
 	float differential = 2 * a_fRadius / 6;
@@ -537,6 +538,26 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		float dif2 = (2 * a_fRadius / 4);
 		upper2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 5));
 		bottom2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 1));
+	}
+
+	// normalizing and multiplying by radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float normalValue;
+		vector3 directionVec;
+
+		// upper 1
+		directionVec = vector3(upper1Circle[i] - origin);
+		normalValue = sqrt(pow(directionVec.x, 2) + pow(directionVec.y, 2) + pow(directionVec.z, 2));
+		
+
+
+		// upper 2
+
+		// lower 1
+
+		// lower 2
+
 	}
 
 	// adding in the sides
