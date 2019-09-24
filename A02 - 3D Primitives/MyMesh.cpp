@@ -276,7 +276,44 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	//GenerateCube(a_fRadius * 2.0f, a_v3Color);
+
+	// 7 vertices on bottom with one up top
+	// creating a list to store vertices
+	std::vector<vector3> vertexCreation;
+
+	// origin vector
+	glm::vec3 originVec = vector3(0.0f, 0.0f, 0.0f);
+	vertexCreation.push_back(originVec);
+
+	// adding vertices to a creation list with correct radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float constant = (2 * PI / a_nSubdivisions);
+		vertexCreation.push_back(a_fRadius * vector3(cos(i * constant), sin(i * constant), 0.0f));
+	}
+
+	// add vertex on top
+	glm::vec3 topVec = vector3(originVec + vector3(0, 0, a_fHeight));
+
+	// Adding Tri's
+	for (int i = 1; i <= a_nSubdivisions; i++)
+	{
+		// last tri
+		if (i == a_nSubdivisions)
+		{
+			AddTri(vertexCreation[0], vertexCreation[1], vertexCreation[i]);
+			AddTri(vertexCreation[i], vertexCreation[1], topVec);
+		}
+		// any other tri
+		else
+		{
+			AddTri(vertexCreation[0], vertexCreation[i + 1], vertexCreation[i]);
+			AddTri(vertexCreation[i], vertexCreation[i + 1], topVec);
+		}
+	}
+
+
 	// -------------------------------
 
 	// Adding information about color
@@ -300,7 +337,43 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	Init();
 
 	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	//GenerateCube(a_fRadius * 2.0f, a_v3Color);
+
+	// creating a list to store vertices
+	std::vector<vector3> bottomCircle;
+	std::vector<vector3> topCircle;
+
+	// origin vectors
+	glm::vec3 addHeight = vector3(0, 0, a_fHeight);
+	glm::vec3 originVec = vector3(0.0f, 0.0f, 0.0f);
+	bottomCircle.push_back(originVec);
+	topCircle.push_back(addHeight);
+
+	// adding vertices to a creation list with correct radius
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		float constant = (2 * PI / a_nSubdivisions);
+		bottomCircle.push_back(a_fRadius * vector3(cos(i * constant), sin(i * constant), 0.0f));
+		topCircle.push_back(vector3(a_fRadius * cos(i * constant), a_fRadius * sin(i * constant), a_fHeight));
+	}
+
+	// Adding Tri's
+	for (int i = 1; i <= a_nSubdivisions; i++)
+	{
+		// last tri
+		if (i == a_nSubdivisions)
+		{
+			AddTri(bottomCircle[0], bottomCircle[1], bottomCircle[i]);
+			AddTri(topCircle[0], topCircle[i], topCircle[1]);
+		}
+		// any other tri
+		else
+		{
+			AddTri(bottomCircle[0], bottomCircle[i + 1], bottomCircle[i]);
+			AddTri(topCircle[0], topCircle[i], topCircle[i + 1]);
+			AddQuad(bottomCircle[i], bottomCircle[i + 1], topCircle[i], topCircle[i + 1]);
+		}
+	}
 	// -------------------------------
 
 	// Adding information about color
