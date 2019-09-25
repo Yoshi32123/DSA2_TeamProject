@@ -538,7 +538,7 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		float constant = (2 * PI / a_nSubdivisions);
 		centerCircle.push_back(vector3(a_fRadius * cos(i * constant), a_fRadius * sin(i * constant), a_fRadius));
 
-		float dif1 = (8 * a_fRadius / 9);
+		float dif1 = (9 * a_fRadius / 10);
 		upper1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 5.5));
 		bottom1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 2.5));
 
