@@ -498,13 +498,16 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		a_fRadius = 0.01f;
 
 	//Sets minimum and maximum of subdivisions
-	if (a_nSubdivisions < 1)
+	if (a_nSubdivisions < 3)
 	{
 		GenerateCube(a_fRadius * 2.0f, a_v3Color);
 		return;
 	}
 	if (a_nSubdivisions > 20)
 		a_nSubdivisions = 20;
+
+	if (a_nSubdivisions % 2 == 1)
+		a_nSubdivisions += 1;
 
 	Release();
 	Init();
@@ -514,16 +517,20 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 	// creating a list to store vertices
 	std::vector<vector3> centerCircle;
+
 	std::vector<vector3> upper1Circle;
 	std::vector<vector3> upper2Circle;
+	std::vector<vector3> upper3Circle;
+
 	std::vector<vector3> bottom1Circle;
 	std::vector<vector3> bottom2Circle;
+	std::vector<vector3> bottom3Circle;
 
 	// standards
 	glm::vec3 origin = vector3(0.0f, 0.0f, a_fRadius);
 	glm::vec3 bottomVertex = vector3(0.0f, 0.0f, 0.0f);
 	glm::vec3 topVertex = vector3(0.0f, 0.0f, 2 * a_fRadius);
-	float differential = 2 * a_fRadius / 6;
+	float differential = (2 * a_fRadius / 8);
 
 	// adding vertices to a creation list with correct radius
 	for (int i = 0; i < a_nSubdivisions; i++)
@@ -531,33 +538,17 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		float constant = (2 * PI / a_nSubdivisions);
 		centerCircle.push_back(vector3(a_fRadius * cos(i * constant), a_fRadius * sin(i * constant), a_fRadius));
 
-		float dif1 = (4 * a_fRadius / 5);
-		upper1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 4));
-		bottom1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 2));
+		float dif1 = (8 * a_fRadius / 9);
+		upper1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 5.5));
+		bottom1Circle.push_back(vector3(dif1 * cos(i * constant), dif1 * sin(i * constant), differential * 2.5));
 
-		float dif2 = (2 * a_fRadius / 4);
-		upper2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 5));
-		bottom2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 1));
-	}
+		float dif2 = (5 * a_fRadius / 7);
+		upper2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 6.5));
+		bottom2Circle.push_back(vector3(dif2 * cos(i * constant), dif2 * sin(i * constant), differential * 1.5));
 
-	// normalizing and multiplying by radius
-	for (int i = 0; i < a_nSubdivisions; i++)
-	{
-		float normalValue;
-		vector3 directionVec;
-
-		// upper 1
-		directionVec = vector3(upper1Circle[i] - origin);
-		normalValue = sqrt(pow(directionVec.x, 2) + pow(directionVec.y, 2) + pow(directionVec.z, 2));
-		
-
-
-		// upper 2
-
-		// lower 1
-
-		// lower 2
-
+		float dif3 = (2 * a_fRadius / 5);
+		upper3Circle.push_back(vector3(dif3 * cos(i * constant), dif3 * sin(i * constant), differential * 7.5));
+		bottom3Circle.push_back(vector3(dif3 * cos(i * constant), dif3 * sin(i * constant), differential * 0.5));
 	}
 
 	// adding in the sides
@@ -566,9 +557,8 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		if (i == a_nSubdivisions - 1)
 		{
 			// adding top and bottom faces made of tri's
-			// adding top and bottom faces made of tri's
-			AddTri(upper2Circle[i], upper2Circle[0], topVertex);
-			AddTri(bottom2Circle[0], bottom2Circle[i], bottomVertex);
+			AddTri(upper3Circle[i], upper3Circle[0], topVertex);
+			AddTri(bottom3Circle[0], bottom3Circle[i], bottomVertex);
 
 			// adding quads between layers
 			AddQuad(bottom1Circle[i], bottom1Circle[0], centerCircle[i], centerCircle[0]);
@@ -576,12 +566,15 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 			AddQuad(bottom2Circle[i], bottom2Circle[0], bottom1Circle[i], bottom1Circle[0]);
 			AddQuad(upper1Circle[i], upper1Circle[0], upper2Circle[i], upper2Circle[0]);
+
+			AddQuad(bottom3Circle[i], bottom3Circle[0], bottom2Circle[i], bottom2Circle[0]);
+			AddQuad(upper2Circle[i], upper2Circle[0], upper3Circle[i], upper3Circle[0]);
 		}
 		else
 		{
 			// adding top and bottom faces made of tri's
-			AddTri(upper2Circle[i], upper2Circle[i + 1], topVertex);
-			AddTri(bottom2Circle[i + 1], bottom2Circle[i], bottomVertex);
+			AddTri(upper3Circle[i], upper3Circle[i + 1], topVertex);
+			AddTri(bottom3Circle[i + 1], bottom3Circle[i], bottomVertex);
 
 			// adding quads between layers
 			AddQuad(bottom1Circle[i], bottom1Circle[i + 1], centerCircle[i], centerCircle[i + 1]);
@@ -589,9 +582,11 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 			AddQuad(bottom2Circle[i], bottom2Circle[i + 1], bottom1Circle[i], bottom1Circle[i + 1]);
 			AddQuad(upper1Circle[i], upper1Circle[i + 1], upper2Circle[i], upper2Circle[i + 1]);
+
+			AddQuad(bottom3Circle[i], bottom3Circle[i + 1], bottom2Circle[i], bottom2Circle[i + 1]);
+			AddQuad(upper2Circle[i], upper2Circle[i + 1], upper3Circle[i], upper3Circle[i + 1]);
 		}
 	}
-
 
 	// -------------------------------
 
