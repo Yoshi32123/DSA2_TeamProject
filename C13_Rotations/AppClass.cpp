@@ -45,6 +45,10 @@ void Application::Display(void)
 	m4Model = m4TransInverse * m4Rotation * m4Translation;
 	*/
 
+	//matrix4 m4RotX =
+		//glm::rotate(IDENTITY_M4, glm::radians(m_v3Orientation.x),
+			//vector3(1.0f, 0.0f, 0.0f));
+
 	// render the object
 	m_pMesh->Render(m4Projection, m4View, m4Model);
 	
