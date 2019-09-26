@@ -30,8 +30,18 @@ void Application::Display(void)
 	m_m4Model = glm::rotate(m_m4Model, glm::radians(m_v3Rotation.z), vector3(0.0f, 0.0f, 1.0f));
 	m_pMesh->Render(m4Projection, m4View, ToMatrix4(m_m4Model));
 
+	//matrix4 m4Rotation =
+	//glm::radians(fTimer * 90.0f), vector3(0.0f, 0.0f, 1.0f));
+
 	//m_qOrientation = m_qOrientation * glm::angleAxis(glm::radians(1.0f), vector3(1.0f));
 	//m_pMesh->Render(m4Projection, m4View, ToMatrix4(m_qOrientation));
+
+	quaternion q1 = glm::angleAxis(glm::radians(0.0f), vector3(0.0f, 0.0f, 1.0f));
+	quaternion q2 = glm::angleAxis(glm::radians(90.0f), vector3(0.0f, 0.0f, 1.0f));
+	//quaternion q3 = glm::mix(q1, q2, MapValue(fTimer, 0.0f, 5.0f, 0.0f, 1.0f))
+
+	//m_v3Orientation.z = (fTimer * 90.0f);
+	//matrix4 m4RotX = 
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
