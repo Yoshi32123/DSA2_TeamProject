@@ -16,7 +16,6 @@ void Application::Update(void)
 
 	//Is the first person camera active?
 	CameraRotation();
-
 	
 }
 void Application::Display(void)
