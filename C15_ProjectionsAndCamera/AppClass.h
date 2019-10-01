@@ -23,6 +23,11 @@ class Application
 	MyMesh* m_pMesh2 = nullptr; //Primitive to display
 	MyCamera* m_pCamera = nullptr; //camera we will use in this application
 
+	// need these three things to know where you are, what you are looking at, and how far up
+	vector3 v3Position = vector3(0.0f, 0.0f, 5.0f);
+	vector3 v3Target = vector3(0.0f, 0.0f, 0.0f); // origin of object
+	vector3 v3Upwards = vector3(0.0f, 1.0f, 0.0f); // directional vector
+
 	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
 private:
 	static ImGuiObject gui; //GUI object

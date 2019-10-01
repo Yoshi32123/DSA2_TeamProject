@@ -398,10 +398,19 @@ void Application::ProcessKeyboard(void)
 		fSpeed *= 5.0f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
 		m_pCameraMngr->MoveForward(fSpeed);
+		v3Position.z -= 0.01f;
+		v3Target.z += 0.01f;
+	}
+		
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
 		m_pCameraMngr->MoveForward(-fSpeed);
+		v3Position.z += 0.01f;
+		v3Target.z += 0.01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		m_pCameraMngr->MoveSideways(-fSpeed);

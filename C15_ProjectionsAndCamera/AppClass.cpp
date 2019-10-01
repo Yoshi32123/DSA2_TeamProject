@@ -52,10 +52,19 @@ void Application::Display(void)
 	m_pCamera->SetTarget(vector3(fPos, 0.0f, 9.0f));
 	fPos -= 0.01f;
 
+	
+
+	matrix4 m4model = glm::translate(vector3(0.0f, 0.0f, 0.0f));
+	matrix4 m4View = glm::lookAt(v3Position, v3Target, v3Upwards);
+
+	matrix4 m4Projection = m_pCamera->GetProjectionMatrix();
+
+	m4Projection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.001f, 1.0f);
+
 	//draw the primitive
 	//m_pMesh->Render(m_pCamera->GetProjectionMatrix(), m_pCamera->GetViewMatrix(), ToMatrix4(m_qArcBall));
 	//m_pMesh->Render(m_pCamera, ToMatrix4(m_qArcBall));
-	m_pMesh2->Render(m_pCamera, glm::translate(vector3(0.0f, 0.0f, -5.0f)));
+	m_pMesh2->Render(m4Projection, m4View, m4model);
 
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
