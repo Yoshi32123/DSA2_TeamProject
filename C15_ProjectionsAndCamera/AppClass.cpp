@@ -58,8 +58,14 @@ void Application::Display(void)
 	matrix4 m4View = glm::lookAt(v3Position, v3Target, v3Upwards);
 
 	matrix4 m4Projection = m_pCamera->GetProjectionMatrix();
+	int width = m_pSystem->GetWindowWidth();
+	int height = m_pSystem->GetWindowHeight();
 
-	m4Projection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.001f, 1.0f);
+	m4Projection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.001f, 5.0f);
+	m4Projection = glm::perspective(glm::radians(45.0f),
+		static_cast<float>(width) / static_cast<float>(height),
+		//16.0f / 9.0f,
+		0.001f, 100.0f);
 
 	//draw the primitive
 	//m_pMesh->Render(m_pCamera->GetProjectionMatrix(), m_pCamera->GetViewMatrix(), ToMatrix4(m_qArcBall));

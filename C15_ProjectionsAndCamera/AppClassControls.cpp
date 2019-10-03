@@ -400,16 +400,16 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		m_pCameraMngr->MoveForward(fSpeed);
-		v3Position.z -= 0.01f;
-		v3Target.z += 0.01f;
+		v3Position.z -= 0.1f;
+		v3Target.z -= 0.1f;
 	}
 		
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		m_pCameraMngr->MoveForward(-fSpeed);
-		v3Position.z += 0.01f;
-		v3Target.z += 0.01f;
+		v3Position.z += 0.1f;
+		v3Target.z += 0.1f;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
