@@ -18,6 +18,8 @@ class MyCamera
 
 	quaternion m_qCamera; // Camera quaternion for rotation
 	quaternion m_qRESET; // used to reset quaternions after implementation
+	quaternion m_qCameraYaw;
+	quaternion m_qCameraPitch;
 
 	bool m_bPerspective = true; //perspective view? False is Orthographic
 
