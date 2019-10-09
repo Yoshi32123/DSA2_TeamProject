@@ -411,6 +411,10 @@ void Application::ProcessKeyboard(void)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCamera->MoveVertical(fSpeed);
 
+	// reset camera
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+		m_pCamera->ResetCamera();
+
 #pragma endregion
 }
 //Joystick
