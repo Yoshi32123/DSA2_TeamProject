@@ -137,20 +137,17 @@ void Simplex::MyCamera::CalculateViewMatrix(void)
 	// updating main quaternion
 	m_qCamera = m_qCameraPitch * m_qCameraYaw;
 
-	// applying main transformations
+	// applying main transformations to normals
 	m_v3Forward = glm::rotate(m_qCamera, m_v3Forward);
+	m_v3Right = glm::rotate(m_qCamera, m_v3Right);
+	m_v3Up = glm::rotate(m_qCamera, m_v3Up);
+
+	// applying rotation to main vectors
 	m_v3Target = m_v3Position + m_v3Forward;
-
-	m_v3Right = glm::rotate(m_qCameraPitch, m_v3Right);
-
-	m_v3Up = glm::rotate(m_qCameraYaw, m_v3Up);
 	m_v3Above = m_v3Position + m_v3Up;
 
 	// Updating lookat function
 	m_m4View = glm::lookAt(m_v3Position, m_v3Target, m_v3Up); //position, target, upward
-
-	// Rotates camera based on right click
-	//m_m4View = glm::mat4_cast(m_qCamera) * m_m4View;
 
 	// reset the camera quaternion
 	m_qCameraYaw = m_qRESET;
@@ -179,6 +176,7 @@ void MyCamera::MoveForward(float a_fDistance)
 	vector4 fixer = vector4(0.0f, 0.0f, -a_fDistance, 0.0f) * m_m4View;
 
 	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Target += vector3(fixer.x, fixer.y, fixer.z);
 	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
 }
 
@@ -188,6 +186,7 @@ void MyCamera::MoveVertical(float a_fDistance)
 	vector4 fixer = vector4(0.0f, a_fDistance, 0.0f, 0.0f) * m_m4View;
 
 	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Target += vector3(fixer.x, fixer.y, fixer.z);
 	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
 }
 
@@ -197,17 +196,18 @@ void MyCamera::MoveSideways(float a_fDistance)
 	vector4 fixer = vector4(a_fDistance, 0.0f, 0.0f, 0.0f) * m_m4View;
 
 	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Target += vector3(fixer.x, fixer.y, fixer.z);
 	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
 }
 
 void Simplex::MyCamera::ChangeYaw(float a_fYaw)
 {
 	// yaw rotates about vertical axis. y component
-	m_qCameraYaw = glm::angleAxis(glm::radians(a_fYaw), m_v3Up);
+	m_qCameraYaw = glm::angleAxis(a_fYaw, m_v3Up);
 }
 
 void Simplex::MyCamera::ChangePitch(float a_fPitch)
 {
 	// pitch rotates about horizontal axis. x component
-	m_qCameraPitch = glm::angleAxis(glm::radians(a_fPitch), m_v3Right);
+	m_qCameraPitch = glm::angleAxis(-a_fPitch, m_v3Right);
 }
