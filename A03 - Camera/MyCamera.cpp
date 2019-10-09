@@ -152,7 +152,6 @@ void Simplex::MyCamera::CalculateProjectionMatrix(void)
 
 void MyCamera::MoveForward(float a_fDistance)
 {
-	//The following is just an example and does not take in account the forward vector (AKA view vector)
 	m_v3Position += vector3(0.0f, 0.0f, -a_fDistance);
 	m_v3Target += vector3(0.0f, 0.0f, -a_fDistance);
 	m_v3Above += vector3(0.0f, 0.0f, -a_fDistance);
