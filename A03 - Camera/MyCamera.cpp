@@ -133,21 +133,29 @@ void Simplex::MyCamera::SetPositionTargetAndUpward(vector3 a_v3Position, vector3
 
 void Simplex::MyCamera::CalculateViewMatrix(void)
 {
-	// fixing variables
-	m_v3Target = m_v3Position + vector3(0.0f, 0.0f, 1.0f);
 
 	// updating main quaternion
-	m_qCamera = m_qCameraYaw * m_qCameraPitch * m_qCamera;
+	m_qCamera = m_qCameraPitch * m_qCameraYaw;
+
+	// applying main transformations
+	m_v3Forward = glm::rotate(m_qCamera, m_v3Forward);
+	m_v3Target = m_v3Position + m_v3Forward;
+
+	m_v3Right = glm::rotate(m_qCameraPitch, m_v3Right);
+
+	m_v3Up = glm::rotate(m_qCameraYaw, m_v3Up);
+	m_v3Above = m_v3Position + m_v3Up;
 
 	// Updating lookat function
-	m_m4View = glm::lookAt(m_v3Position, m_v3Target, glm::normalize(m_v3Above - m_v3Position)); //position, target, upward
+	m_m4View = glm::lookAt(m_v3Position, m_v3Target, m_v3Up); //position, target, upward
 
 	// Rotates camera based on right click
-	m_m4View = glm::mat4_cast(m_qCamera) * m_m4View;
+	//m_m4View = glm::mat4_cast(m_qCamera) * m_m4View;
 
 	// reset the camera quaternion
 	m_qCameraYaw = m_qRESET;
 	m_qCameraPitch = m_qRESET;
+	m_qCamera = m_qRESET;
 }
 
 void Simplex::MyCamera::CalculateProjectionMatrix(void)
@@ -195,11 +203,11 @@ void MyCamera::MoveSideways(float a_fDistance)
 void Simplex::MyCamera::ChangeYaw(float a_fYaw)
 {
 	// yaw rotates about vertical axis. y component
-	m_qCameraYaw = quaternion(vector3(0.0f, glm::radians(a_fYaw), 0.0f)) * m_qCameraYaw;
+	m_qCameraYaw = glm::angleAxis(glm::radians(a_fYaw), m_v3Up);
 }
 
 void Simplex::MyCamera::ChangePitch(float a_fPitch)
 {
 	// pitch rotates about horizontal axis. x component
-	m_qCameraPitch = quaternion(vector3(glm::radians(a_fPitch), 0.0f, 0.0f)) * m_qCameraPitch;
+	m_qCameraPitch = glm::angleAxis(glm::radians(a_fPitch), m_v3Right);
 }
