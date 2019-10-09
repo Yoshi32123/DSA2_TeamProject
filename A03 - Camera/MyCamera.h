@@ -16,6 +16,9 @@ class MyCamera
 	vector3 m_v3Target = vector3(0.0f, 0.0f, 0.0f); //What I'm looking at
 	vector3 m_v3Above = vector3(0.0f, 1.0f, 0.0f); //What is above the camera
 
+	quaternion m_qCamera; // Camera quaternion for rotation
+	quaternion m_qRESET; // used to reset quaternions after implementation
+
 	bool m_bPerspective = true; //perspective view? False is Orthographic
 
 	float m_fFOV = 45.0f; //Field of View
@@ -230,6 +233,18 @@ public:
 	OUTPUT: ---
 	*/
 	void MoveSideways(float a_fDistance = 0.1f);
+	/*
+	USAGE: Changes the yaw of the camera
+	ARGUMENTS: float a_fYaw = 0.0f -> amount of rotation about vertical axis
+	OUTPUT: ---
+	*/
+	void ChangeYaw(float a_fYaw = 0.0f);
+	/*
+	USAGE: Changes the pitch of the camera
+	ARGUMENTS: float a_fPitch = 0.0f -> amount of rotation about horizontal axis
+	OUTPUT: ---
+	*/
+	void ChangePitch(float a_fPitch = 0.0f);
 };
 
 } //namespace Simplex

@@ -131,8 +131,19 @@ void Simplex::MyCamera::SetPositionTargetAndUpward(vector3 a_v3Position, vector3
 
 void Simplex::MyCamera::CalculateViewMatrix(void)
 {
-	//Calculate the look at most of your assignment will be reflected in this method
+	// fixing variables
+	m_v3Above = m_qCamera * m_v3Above;
+	m_v3Target = m_v3Position + vector3(0.0f, 0.0f, 1.0f);
+	m_v3Target = m_qCamera * m_v3Target;
+
+	// Updating lookat function
 	m_m4View = glm::lookAt(m_v3Position, m_v3Target, glm::normalize(m_v3Above - m_v3Position)); //position, target, upward
+
+	// Rotates camera based on right click
+	//m_m4View = glm::mat4_cast(m_qCamera) * m_m4View;
+
+	// reset the camera quaternion
+	m_qCamera = m_qRESET;
 }
 
 void Simplex::MyCamera::CalculateProjectionMatrix(void)
@@ -152,21 +163,39 @@ void Simplex::MyCamera::CalculateProjectionMatrix(void)
 
 void MyCamera::MoveForward(float a_fDistance)
 {
-	m_v3Position += vector3(0.0f, 0.0f, -a_fDistance);
-	m_v3Target += vector3(0.0f, 0.0f, -a_fDistance);
-	m_v3Above += vector3(0.0f, 0.0f, -a_fDistance);
+	// forward is z component
+	vector4 fixer = vector4(0.0f, 0.0f, -a_fDistance, 0.0f) * m_m4View;
+
+	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
 }
 
 void MyCamera::MoveVertical(float a_fDistance)
 {
-	m_v3Position += vector3(0.0f, a_fDistance, 0.0f);
-	m_v3Target += vector3(0.0f, a_fDistance, 0.0f);
-	m_v3Above += vector3(0.0f, a_fDistance, 0.0f);
+	 // vertical is y component
+	vector4 fixer = vector4(0.0f, a_fDistance, 0.0f, 0.0f) * m_m4View;
+
+	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
 }
 
 void MyCamera::MoveSideways(float a_fDistance)
 {
-	m_v3Position += vector3(a_fDistance, 0.0f, 0.0f);
-	m_v3Target += vector3(a_fDistance, 0.0f, 0.0f);
-	m_v3Above += vector3(a_fDistance, 0.0f, 0.0f);
+	// sideways is x component
+	vector4 fixer = vector4(a_fDistance, 0.0f, 0.0f, 0.0f) * m_m4View;
+
+	m_v3Position += vector3(fixer.x, fixer.y, fixer.z);
+	m_v3Above += vector3(fixer.x, fixer.y, fixer.z);
+}
+
+void Simplex::MyCamera::ChangeYaw(float a_fYaw)
+{
+	// yaw rotates about vertical axis. y component
+	m_qCamera = quaternion(vector3(0.0f, glm::radians(a_fYaw), 0.0f)) * m_qCamera;
+}
+
+void Simplex::MyCamera::ChangePitch(float a_fPitch)
+{
+	// pitch rotates about horizontal axis. x component
+	m_qCamera = quaternion(vector3(glm::radians(a_fPitch), 0.0f, 0.0f)) * m_qCamera;
 }

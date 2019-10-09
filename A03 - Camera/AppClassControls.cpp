@@ -343,35 +343,37 @@ void Application::CameraRotation(float a_fSpeed)
 	MouseX = pt.x;
 	MouseY = pt.y;
 
-	//Calculate the difference in view with the angle
+	//Calculate the difference in view with the angle     m_qRightClick
 	float fAngleX = 0.0f;
 	float fAngleY = 0.0f;
 	float fDeltaMouse = 0.0f;
 	if (MouseX < CenterX)
 	{
 		fDeltaMouse = static_cast<float>(CenterX - MouseX);
-		fAngleY += fDeltaMouse * a_fSpeed;
+		fAngleY -= a_fSpeed * fDeltaMouse;
 	}
 	else if (MouseX > CenterX)
 	{
 		fDeltaMouse = static_cast<float>(MouseX - CenterX);
-		fAngleY -= fDeltaMouse * a_fSpeed;
+		fAngleY += a_fSpeed * fDeltaMouse;
 	}
 
 	if (MouseY < CenterY)
 	{
 		fDeltaMouse = static_cast<float>(CenterY - MouseY);
-		fAngleX -= fDeltaMouse * a_fSpeed;
+		fAngleX -= a_fSpeed * fDeltaMouse;
 	}
 	else if (MouseY > CenterY)
 	{
 		fDeltaMouse = static_cast<float>(MouseY - CenterY);
-		fAngleX += fDeltaMouse * a_fSpeed;
+		fAngleX += a_fSpeed * fDeltaMouse;
 	}
 
-	//Change the Yaw and the Pitch of the camera
-	m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
-	m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
+	// Change Pitch
+	m_pCamera->ChangePitch(fAngleX * 2.0f);
+
+	// Change Yaw
+	m_pCamera->ChangeYaw(fAngleY * 2.0f);
 
 	//Position the mouse in the center
 	SetCursorPos(CenterX, CenterY);
