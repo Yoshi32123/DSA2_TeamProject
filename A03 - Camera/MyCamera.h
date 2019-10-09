@@ -17,7 +17,7 @@ class MyCamera
 	vector3 m_v3Above = vector3(0.0f, 1.0f, 0.0f); //What is above the camera
 
 	vector3 m_v3Forward = glm::normalize(vector3(m_v3Target - m_v3Position));
-	vector3 m_v3Up = glm::normalize(vector3(m_v3Above - m_v3Position));
+	vector3 m_v3Up = glm::normalize(vector3(m_v3Above));
 	vector3 m_v3Right = glm::normalize(glm::cross(m_v3Forward, m_v3Up));
 
 	quaternion m_qCamera; // Camera quaternion for rotation

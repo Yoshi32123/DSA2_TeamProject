@@ -140,7 +140,7 @@ void Simplex::MyCamera::CalculateViewMatrix(void)
 	// applying main transformations to normals
 	m_v3Forward = glm::rotate(m_qCamera, m_v3Forward);
 	m_v3Right = glm::rotate(m_qCamera, m_v3Right);
-	m_v3Up = glm::rotate(m_qCamera, m_v3Up);
+	//m_v3Up = glm::rotate(m_qCamera, m_v3Up);
 
 	// applying rotation to main vectors
 	m_v3Target = m_v3Position + m_v3Forward;
@@ -203,7 +203,7 @@ void MyCamera::MoveSideways(float a_fDistance)
 void Simplex::MyCamera::ChangeYaw(float a_fYaw)
 {
 	// yaw rotates about vertical axis. y component
-	m_qCameraYaw = glm::angleAxis(a_fYaw, m_v3Up);
+	m_qCameraYaw = glm::angleAxis(-a_fYaw, m_v3Up);
 }
 
 void Simplex::MyCamera::ChangePitch(float a_fPitch)
