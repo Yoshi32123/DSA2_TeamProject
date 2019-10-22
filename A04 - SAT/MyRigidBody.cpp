@@ -232,8 +232,22 @@ bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 	//if they are colliding check the SAT
 	if (bColliding)
 	{
-		if(SAT(a_pOther) != eSATResults::SAT_NONE)
+		if (SAT(a_pOther) != eSATResults::SAT_NONE)
 			bColliding = false;// reset to false
+		else if (SAT(a_pOther) == eSATResults::SAT_AX)
+		{ }
+		else if (SAT(a_pOther) == eSATResults::SAT_AY)
+		{ }
+		else if (SAT(a_pOther) == eSATResults::SAT_AZ)
+		{}
+		else if (SAT(a_pOther) == eSATResults::SAT_BX)
+		{ }
+		else if (SAT(a_pOther) == eSATResults::SAT_BX)
+		{ }
+		else if (SAT(a_pOther) == eSATResults::SAT_BX)
+		{ }
+		else if (SAT(a_pOther) == eSATResults::SAT_AXxBX)
+		{ }
 	}
 
 	if (bColliding) //they are colliding
@@ -276,16 +290,128 @@ void MyRigidBody::AddToRenderList(void)
 
 uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 {
-	/*
-	Your code goes here instead of this comment;
+	// a = creeper rigidbody
+	// b = steve rigidbody
+	// e = halfwidth
+	// u = model matrix * vec3(AXIS, 0.0f)
+	// c = center point
 
-	For this method, if there is an axis that separates the two objects
-	then the return will be different than 0; 1 for any separating axis
-	is ok if you are not going for the extra credit, if you could not
-	find a separating axis you need to return 0, there is an enum in
-	Simplex that might help you [eSATResults] feel free to use it.
-	(eSATResults::SAT_NONE has a value of 0)
-	*/
+	// reference storage
+	MyRigidBody* a = this;
+	MyRigidBody* b = a_pOther;
+
+	float ra, rb;
+	glm::mat3 R, AbsR;
+
+	// compute rotation matrix expressing b in a's coordinate frame
+	for (uint i = 0; i < 3; i++)
+	{
+		for (uint j = 0; j < 3; j++)
+		{
+			R[i][j] = glm::dot(a->GetModelMatrix()[i], b->GetModelMatrix()[j]);
+		}
+	}
+
+	// compute translation vector t
+	vector4 t = vector4(b->GetCenterGlobal() - a->GetCenterGlobal(), 1.0f);
+
+	// bring translation into a's coordinate frame
+	t = vector4(
+		glm::dot(t, vector4(a->GetModelMatrix()[0] * vector4(AXIS_X, 0.0f))),
+		glm::dot(t, vector4(a->GetModelMatrix()[1] * vector4(AXIS_Y, 0.0f))),
+		glm::dot(t, vector4(a->GetModelMatrix()[2] * vector4(AXIS_Z, 0.0f))),
+		0.0f);
+
+	// compute common subexpressions
+	for (uint i = 0; i < 3; i++)
+	{
+		for (uint j = 0; j < 3; j++)
+		{
+			AbsR[i][j] = abs(R[i][j]) + DBL_EPSILON;
+		}
+	}
+
+	// test axis L = A0, L = A1, L = A2
+	for (uint i = 0; i < 3; i++)
+	{
+		ra = a->GetHalfWidth()[i];
+		rb = b->GetHalfWidth()[0] * AbsR[i][0] + b->GetHalfWidth()[1] * AbsR[i][1] + b->GetHalfWidth()[2] * AbsR[i][2];
+
+		if (abs(t[0]) > ra + rb)
+			return eSATResults::SAT_AX;
+		else if (abs(t[1]) > ra + rb)
+			return eSATResults::SAT_AY;
+		else
+			return eSATResults::SAT_AZ;
+	}
+
+	// test axis L = B0, L = B1, L = B2
+	for (uint i = 0; i < 3; i++)
+	{
+		ra = a->GetHalfWidth()[0] * AbsR[0][i] + a->GetHalfWidth()[1] * AbsR[1][i] + a->GetHalfWidth()[2] * AbsR[2][i];
+		rb = b->GetHalfWidth()[i];
+
+		if (abs(t[0] * R[0][0] + t[1] * R[1][0] + t[2] * R[2][0]) > ra + rb)
+			return eSATResults::SAT_BX;
+		else if (abs(t[0] * R[0][1] + t[1] * R[1][1] + t[2] * R[2][1]) > ra + rb)
+			return eSATResults::SAT_BX;
+		else
+			return eSATResults::SAT_BZ;
+	}
+
+	// test axis L = A0 x B0
+	ra = a->GetHalfWidth()[1] * AbsR[2][0] + a->GetHalfWidth()[2] * AbsR[1][0];
+	rb = b->GetHalfWidth()[1] * AbsR[0][2] + b->GetHalfWidth()[2] * AbsR[0][1];
+	if (abs(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb)
+		return eSATResults::SAT_AXxBX;
+
+	// test axis L = A0 x B1
+	ra = a->GetHalfWidth()[1] * AbsR[2][1] + a->GetHalfWidth()[2] * AbsR[1][1];
+	rb = b->GetHalfWidth()[0] * AbsR[0][2] + b->GetHalfWidth()[2] * AbsR[0][0];
+	if (abs(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb)
+		return eSATResults::SAT_AXxBY;
+	
+	// test axis L = A0 x B2
+	ra = a->GetHalfWidth()[1] * AbsR[2][2] + a->GetHalfWidth()[2] * AbsR[1][2];
+	rb = b->GetHalfWidth()[0] * AbsR[0][1] + b->GetHalfWidth()[1] * AbsR[0][0];
+	if (abs(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb)
+		return eSATResults::SAT_AXxBZ;
+
+	// test axis L = A1 x B0
+	ra = a->GetHalfWidth()[0] * AbsR[2][0] + a->GetHalfWidth()[2] * AbsR[0][0];
+	rb = b->GetHalfWidth()[1] * AbsR[1][2] + b->GetHalfWidth()[2] * AbsR[1][1];
+	if (abs(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb)
+		return eSATResults::SAT_AYxBX;
+
+	// test axis L = A1 x B1
+	ra = a->GetHalfWidth()[0] * AbsR[2][1] + a->GetHalfWidth()[2] * AbsR[0][1];
+	rb = b->GetHalfWidth()[0] * AbsR[1][2] + b->GetHalfWidth()[2] * AbsR[1][0];
+	if (abs(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb)
+		return eSATResults::SAT_AYxBY;
+
+	// test axis L = A1 x B2
+	ra = a->GetHalfWidth()[0] * AbsR[2][2] + a->GetHalfWidth()[2] * AbsR[0][2];
+	rb = b->GetHalfWidth()[0] * AbsR[1][1] + b->GetHalfWidth()[1] * AbsR[1][0];
+	if (abs(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb)
+		return eSATResults::SAT_AYxBZ;
+
+	// test axis L = A2 x B0
+	ra = a->GetHalfWidth()[0] * AbsR[1][0] + a->GetHalfWidth()[1] * AbsR[0][0];
+	rb = b->GetHalfWidth()[1] * AbsR[2][2] + b->GetHalfWidth()[2] * AbsR[2][1];
+	if (abs(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb)
+		return eSATResults::SAT_AZxBX;
+
+	// test axis L = A2 x B1
+	ra = a->GetHalfWidth()[0] * AbsR[1][1] + a->GetHalfWidth()[1] * AbsR[0][1];
+	rb = b->GetHalfWidth()[0] * AbsR[2][2] + b->GetHalfWidth()[2] * AbsR[2][0];
+	if (abs(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb)
+		return eSATResults::SAT_AZxBY;
+
+	// test axis L = A2 x B2
+	ra = a->GetHalfWidth()[0] * AbsR[1][2] + a->GetHalfWidth()[1] * AbsR[0][2];
+	rb = b->GetHalfWidth()[0] * AbsR[2][1] + b->GetHalfWidth()[1] * AbsR[2][0];
+	if (abs(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb)
+		return eSATResults::SAT_AZxBZ;
 
 	//there is no axis test that separates this two objects
 	return eSATResults::SAT_NONE;
