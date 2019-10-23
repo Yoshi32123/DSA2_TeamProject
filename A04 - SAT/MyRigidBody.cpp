@@ -234,20 +234,6 @@ bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 	{
 		if (SAT(a_pOther) != eSATResults::SAT_NONE)
 			bColliding = false;// reset to false
-		else if (SAT(a_pOther) == eSATResults::SAT_AX)
-		{ }
-		else if (SAT(a_pOther) == eSATResults::SAT_AY)
-		{ }
-		else if (SAT(a_pOther) == eSATResults::SAT_AZ)
-		{}
-		else if (SAT(a_pOther) == eSATResults::SAT_BX)
-		{ }
-		else if (SAT(a_pOther) == eSATResults::SAT_BX)
-		{ }
-		else if (SAT(a_pOther) == eSATResults::SAT_BX)
-		{ }
-		else if (SAT(a_pOther) == eSATResults::SAT_AXxBX)
-		{ }
 	}
 
 	if (bColliding) //they are colliding
@@ -337,12 +323,8 @@ uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 		ra = a->GetHalfWidth()[i];
 		rb = b->GetHalfWidth()[0] * AbsR[i][0] + b->GetHalfWidth()[1] * AbsR[i][1] + b->GetHalfWidth()[2] * AbsR[i][2];
 
-		if (abs(t[0]) > ra + rb)
-			return eSATResults::SAT_AX;
-		else if (abs(t[1]) > ra + rb)
-			return eSATResults::SAT_AY;
-		else
-			return eSATResults::SAT_AZ;
+		if (abs(t[i]) > ra + rb)
+			return 1;
 	}
 
 	// test axis L = B0, L = B1, L = B2
@@ -351,67 +333,63 @@ uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 		ra = a->GetHalfWidth()[0] * AbsR[0][i] + a->GetHalfWidth()[1] * AbsR[1][i] + a->GetHalfWidth()[2] * AbsR[2][i];
 		rb = b->GetHalfWidth()[i];
 
-		if (abs(t[0] * R[0][0] + t[1] * R[1][0] + t[2] * R[2][0]) > ra + rb)
-			return eSATResults::SAT_BX;
-		else if (abs(t[0] * R[0][1] + t[1] * R[1][1] + t[2] * R[2][1]) > ra + rb)
-			return eSATResults::SAT_BX;
-		else
-			return eSATResults::SAT_BZ;
+		if (abs(t[0] * R[0][i] + t[1] * R[1][i] + t[2] * R[2][i]) > ra + rb)
+			return 1;
 	}
 
 	// test axis L = A0 x B0
 	ra = a->GetHalfWidth()[1] * AbsR[2][0] + a->GetHalfWidth()[2] * AbsR[1][0];
 	rb = b->GetHalfWidth()[1] * AbsR[0][2] + b->GetHalfWidth()[2] * AbsR[0][1];
 	if (abs(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb)
-		return eSATResults::SAT_AXxBX;
+		return 1;
 
 	// test axis L = A0 x B1
 	ra = a->GetHalfWidth()[1] * AbsR[2][1] + a->GetHalfWidth()[2] * AbsR[1][1];
 	rb = b->GetHalfWidth()[0] * AbsR[0][2] + b->GetHalfWidth()[2] * AbsR[0][0];
 	if (abs(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb)
-		return eSATResults::SAT_AXxBY;
+		return 1;
 	
 	// test axis L = A0 x B2
 	ra = a->GetHalfWidth()[1] * AbsR[2][2] + a->GetHalfWidth()[2] * AbsR[1][2];
 	rb = b->GetHalfWidth()[0] * AbsR[0][1] + b->GetHalfWidth()[1] * AbsR[0][0];
 	if (abs(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb)
-		return eSATResults::SAT_AXxBZ;
+		return 1;
 
 	// test axis L = A1 x B0
 	ra = a->GetHalfWidth()[0] * AbsR[2][0] + a->GetHalfWidth()[2] * AbsR[0][0];
 	rb = b->GetHalfWidth()[1] * AbsR[1][2] + b->GetHalfWidth()[2] * AbsR[1][1];
 	if (abs(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb)
-		return eSATResults::SAT_AYxBX;
+		return 1;
 
 	// test axis L = A1 x B1
 	ra = a->GetHalfWidth()[0] * AbsR[2][1] + a->GetHalfWidth()[2] * AbsR[0][1];
 	rb = b->GetHalfWidth()[0] * AbsR[1][2] + b->GetHalfWidth()[2] * AbsR[1][0];
 	if (abs(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb)
-		return eSATResults::SAT_AYxBY;
+		return 1;
 
 	// test axis L = A1 x B2
 	ra = a->GetHalfWidth()[0] * AbsR[2][2] + a->GetHalfWidth()[2] * AbsR[0][2];
 	rb = b->GetHalfWidth()[0] * AbsR[1][1] + b->GetHalfWidth()[1] * AbsR[1][0];
 	if (abs(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb)
-		return eSATResults::SAT_AYxBZ;
+		return 1;
 
 	// test axis L = A2 x B0
 	ra = a->GetHalfWidth()[0] * AbsR[1][0] + a->GetHalfWidth()[1] * AbsR[0][0];
 	rb = b->GetHalfWidth()[1] * AbsR[2][2] + b->GetHalfWidth()[2] * AbsR[2][1];
 	if (abs(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb)
-		return eSATResults::SAT_AZxBX;
+		return 1;
 
 	// test axis L = A2 x B1
 	ra = a->GetHalfWidth()[0] * AbsR[1][1] + a->GetHalfWidth()[1] * AbsR[0][1];
 	rb = b->GetHalfWidth()[0] * AbsR[2][2] + b->GetHalfWidth()[2] * AbsR[2][0];
 	if (abs(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb)
-		return eSATResults::SAT_AZxBY;
+		return 1;
 
 	// test axis L = A2 x B2
 	ra = a->GetHalfWidth()[0] * AbsR[1][2] + a->GetHalfWidth()[1] * AbsR[0][2];
 	rb = b->GetHalfWidth()[0] * AbsR[2][1] + b->GetHalfWidth()[1] * AbsR[2][0];
 	if (abs(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb)
-		return eSATResults::SAT_AZxBZ;
+		return 1;
 
 	//there is no axis test that separates this two objects
 	return eSATResults::SAT_NONE;
