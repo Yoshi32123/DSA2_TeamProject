@@ -303,9 +303,9 @@ uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 
 	// bring translation into a's coordinate frame
 	t = vector4(
-		glm::dot(t, vector4(a->GetModelMatrix()[0] * vector4(AXIS_X, 0.0f))),
-		glm::dot(t, vector4(a->GetModelMatrix()[1] * vector4(AXIS_Y, 0.0f))),
-		glm::dot(t, vector4(a->GetModelMatrix()[2] * vector4(AXIS_Z, 0.0f))),
+		glm::dot(t, vector4(a->GetModelMatrix() * vector4(AXIS_X, 0.0f))),
+		glm::dot(t, vector4(a->GetModelMatrix() * vector4(AXIS_Y, 0.0f))),
+		glm::dot(t, vector4(a->GetModelMatrix() * vector4(AXIS_Z, 0.0f))),
 		0.0f);
 
 	// compute common subexpressions
