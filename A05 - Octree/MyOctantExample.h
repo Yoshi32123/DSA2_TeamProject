@@ -1,6 +1,6 @@
 /*----------------------------------------------
-Programmer: Alberto Bobadilla (labigm@gmail.com)
-Date: 2017/07
+Programmer: Kyler McQuillan (kjm7088@g.rit.edu)
+Date: 2019/10
 ----------------------------------------------*/
 #ifndef __MYOCTANTCLASS_H_
 #define __MYOCTANTCLASS_H_
