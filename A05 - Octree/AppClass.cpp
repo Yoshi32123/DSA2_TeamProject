@@ -10,8 +10,6 @@ void Application::InitVariables(void)
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
-	m_pRoot = new MyOctant(m_uOctantLevels, 5);
-
 #ifdef DEBUG
 	uint uInstances = 900;
 #else
@@ -32,6 +30,7 @@ void Application::InitVariables(void)
 		}
 	}
 	m_uOctantLevels = 1;
+	m_pRoot = new MyOctant(m_uOctantLevels, 5);
 	m_pEntityMngr->Update();
 }
 void Application::Update(void)
@@ -57,12 +56,14 @@ void Application::Display(void)
 	ClearScreen();
 
 	//display octree
-	//m_pRoot->Display();
-	//If -1, display base
-	if (m_uOctantID == -1)
+	if (m_uOctantID == -1) //If -1, display base
+	{
 		m_pRoot->Display();
+	}
 	else //otherwise display
+	{
 		m_pRoot->Display(m_uOctantID);
+	}
 
 
 	// draw a skybox
@@ -82,6 +83,9 @@ void Application::Display(void)
 }
 void Application::Release(void)
 {
+	// deleting the octree
+	SafeDelete(m_pRoot);
+
 	//release GUI
 	ShutdownGUI();
 }

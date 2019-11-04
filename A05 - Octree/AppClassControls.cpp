@@ -132,6 +132,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			m_pEntityMngr->ClearDimensionSetAll();
 			++m_uOctantLevels;
 			
+			// destroy octree from root, and create from scratch
 			SafeDelete(m_pRoot);
 			m_pRoot = new MyOctant(m_uOctantLevels, 5);
 			
@@ -144,6 +145,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			m_pEntityMngr->ClearDimensionSetAll();
 			--m_uOctantLevels;
 			
+			// destroy octree from root, and create from scratch
 			SafeDelete(m_pRoot);
 			m_pRoot = new MyOctant(m_uOctantLevels, 5);
 			
