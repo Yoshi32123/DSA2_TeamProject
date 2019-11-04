@@ -126,6 +126,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		
 		break;
 	case sf::Keyboard::Equal:
+	case sf::Keyboard::Space:
 	case sf::Keyboard::Add:
 		if (m_uOctantLevels < 4)
 		{
