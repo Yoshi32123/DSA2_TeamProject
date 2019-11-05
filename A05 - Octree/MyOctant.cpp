@@ -1,7 +1,7 @@
 #include "MyOctantExample.h"
 using namespace Simplex;
 
-//myOctant
+/// myOctant
 uint MyOctant::m_uOctantCount = 0;
 uint MyOctant::m_uMaxLevel = 3;
 uint MyOctant::m_uIdealEntityCount = 5;
@@ -404,16 +404,13 @@ void MyOctant::AssignIDtoEntity(void)
 		m_pChild[i]->AssignIDtoEntity();
 	}
 
-	if (m_uChildren == 0)
+	uint entities = m_pEntityMngr->GetEntityCount();
+	for (uint i = 0; i < entities; i++)
 	{
-		uint entities = m_pEntityMngr->GetEntityCount();
-		for (uint i = 0; i < entities; i++)
+		if (IsColliding(i))
 		{
-			if (IsColliding(i))
-			{
-				m_EntityList.push_back(i);
-				m_pEntityMngr->AddDimension(i, m_uID);
-			}
+			m_EntityList.push_back(i);
+			m_pEntityMngr->AddDimension(i, m_uID);
 		}
 	}
 }

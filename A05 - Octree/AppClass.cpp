@@ -48,7 +48,21 @@ void Application::Update(void)
 	m_pEntityMngr->Update();
 
 	//Add objects to render list
-	m_pEntityMngr->AddEntityToRenderList(-1, true);
+	if (m_uOctantID == -1) 
+	{
+		m_pEntityMngr->AddEntityToRenderList(-1, true);
+	}
+	else
+	{
+		for (uint i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+		{
+			if (m_pEntityMngr->IsInDimension(i, m_uOctantID))
+			{
+				m_pEntityMngr->AddEntityToRenderList(i, true);
+			}
+		}
+	}
+	
 }
 void Application::Display(void)
 {
