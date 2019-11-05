@@ -404,13 +404,16 @@ void MyOctant::AssignIDtoEntity(void)
 		m_pChild[i]->AssignIDtoEntity();
 	}
 
-	uint entities = m_pEntityMngr->GetEntityCount();
-	for (uint i = 0; i < entities; i++)
+	if (m_uChildren == 0)
 	{
-		if (IsColliding(i))
+		uint entities = m_pEntityMngr->GetEntityCount();
+		for (uint i = 0; i < entities; i++)
 		{
-			m_EntityList.push_back(i);
-			m_pEntityMngr->AddDimension(i, m_uID);
+			if (IsColliding(i))
+			{
+				m_EntityList.push_back(i);
+				m_pEntityMngr->AddDimension(i, m_uID);
+			}
 		}
 	}
 }
