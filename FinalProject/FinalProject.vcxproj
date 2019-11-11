@@ -98,6 +98,8 @@ xcopy "$(SolutionDir)include\Simplex\Shaders" "$(SolutionDir)_Binary\Shaders" /y
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\A03 - Camera\MyCamera.cpp" />
+    <ClCompile Include="..\A03 - Camera\MyMesh.cpp" />
     <ClCompile Include="..\include\imgui\imgui.cpp" />
     <ClCompile Include="..\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\include\imgui\imgui_draw.cpp" />
@@ -113,6 +115,8 @@ xcopy "$(SolutionDir)include\Simplex\Shaders" "$(SolutionDir)_Binary\Shaders" /y
     <ClCompile Include="MyRigidBody.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\A03 - Camera\MyCamera.h" />
+    <ClInclude Include="..\A03 - Camera\MyMesh.h" />
     <ClInclude Include="..\include\imgui\imconfig.h" />
     <ClInclude Include="..\include\imgui\imgui.h" />
     <ClInclude Include="..\include\imgui\ImGuiObject.h" />
