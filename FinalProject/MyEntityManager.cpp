@@ -181,6 +181,9 @@ void Simplex::MyEntityManager::Update(void)
 			m_mEntityArray[i]->IsColliding(m_mEntityArray[j]);
 		}
 	}
+
+	//TODO: loop through all entities and resolve collisions
+	//will probably require adding a velocity vector to the entity class
 }
 void Simplex::MyEntityManager::AddEntity(String a_sFileName, String a_sUniqueID)
 {
