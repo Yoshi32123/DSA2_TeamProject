@@ -443,6 +443,20 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
 #pragma endregion
+
+#pragma region BowlingBall Test Movement
+	float fBallMove = 1.0f;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		m_v3BowlingBall.z -= fBallMove;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		m_v3BowlingBall.z += fBallMove;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		m_v3BowlingBall.x -= fBallMove;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		m_v3BowlingBall.x += fBallMove;
+#pragma endregion
+
 }
 //Joystick
 void Application::ProcessJoystick(void)

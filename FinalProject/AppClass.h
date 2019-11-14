@@ -23,6 +23,12 @@ class Application
 	uint m_uOctantID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
 	uint m_uOctantLevels = 0; //Number of levels in the octree
+
+	vector3 m_v3BowlingBall;
+	matrix4 m4BallPosition;
+	Model* m_pBowlingBall = nullptr;
+	MyRigidBody* m_pBowlingBallRB = nullptr;
+
 private:
 	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu"; //programmer
 
