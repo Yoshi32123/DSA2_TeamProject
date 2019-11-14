@@ -4,31 +4,11 @@ void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
-		vector3(0.0f, 0.0f, 100.0f), //Position
-		vector3(0.0f, 0.0f, 99.0f),	//Target
+		vector3(0.0f, 8.0f, 100.0f), //Position
+		vector3(0.0f, 8.0f, 99.0f),	//Target
 		AXIS_Y);					//Up
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
-
-//#ifdef DEBUG
-//	uint uInstances = 1000;
-//#else
-//	uint uInstances = 1000;
-//#endif
-//	int nSquare = static_cast<int>(std::sqrt(uInstances));
-//	m_uObjects = nSquare * nSquare;
-//	uint uIndex = -1;
-//	for (int i = 0; i < nSquare; i++)
-//	{
-//		for (int j = 0; j < nSquare; j++)
-//		{
-//			uIndex++;
-//			m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-//			vector3 v3Position = vector3(glm::sphericalRand(34.0f));
-//			matrix4 m4Position = glm::translate(v3Position);
-//			m_pEntityMngr->SetModelMatrix(m4Position);
-//		}
-//	}
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj"); 
 	vector3 v3Position = vector3(0.0f, 0.0f, 50.0f);
