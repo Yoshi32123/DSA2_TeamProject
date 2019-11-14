@@ -94,6 +94,7 @@ void Application::InitVariables(void)
 	v3Position = vector3(0.0f, 0.0f, 80.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_uOctantLevels = 1;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
