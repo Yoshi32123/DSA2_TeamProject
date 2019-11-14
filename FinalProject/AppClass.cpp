@@ -11,9 +11,15 @@ void Application::InitVariables(void)
 	m_pMeshMngr->GenerateSkybox();
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
+	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball");
+	m_v3BowlingBall = vector3(0.0f, 0.0f, 80.0f);
+	matrix4 m4Position = glm::translate(m_v3BowlingBall);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
+
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj"); 
 	vector3 v3Position = vector3(0.0f, 0.0f, 50.0f);
-	matrix4 m4Position = glm::translate(v3Position);
+	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver(); 
 
@@ -71,11 +77,6 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj");
-	m_v3BowlingBall = vector3(0.0f, 0.0f, 80.0f);
-	m4Position = glm::translate(m_v3BowlingBall);
-	m_pEntityMngr->SetModelMatrix(m4Position);
-	m_pEntityMngr->UsePhysicsSolver();
 
 	m_uOctantLevels = 1;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
@@ -93,7 +94,10 @@ void Application::Update(void)
 	CameraRotation();
 
 	//Update bowling ball position
-	m_pEntityMngr->SetPosition(m_v3BowlingBall, 10);
+	if (!m_bManualMove)
+		m_pEntityMngr->SetPosition(m_v3BowlingBall, "Ball");
+	else
+		m_v3BowlingBall = m_pEntityMngr->GetEntity(0)->GetPosition();
 	
 	//Update Entity Manager
 	m_pEntityMngr->Update();

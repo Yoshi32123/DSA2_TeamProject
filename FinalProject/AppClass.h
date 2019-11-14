@@ -25,9 +25,7 @@ class Application
 	uint m_uOctantLevels = 0; //Number of levels in the octree
 
 	vector3 m_v3BowlingBall;
-	matrix4 m4BallPosition;
-	Model* m_pBowlingBall = nullptr;
-	MyRigidBody* m_pBowlingBallRB = nullptr;
+	bool m_bManualMove = true;
 
 private:
 	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu"; //programmer
