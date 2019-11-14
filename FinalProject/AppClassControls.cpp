@@ -445,7 +445,7 @@ void Application::ProcessKeyboard(void)
 #pragma endregion
 
 #pragma region BowlingBall Test Movement
-	float fBallMove = 1.0f;
+	float fBallMove = 0.5f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		m_v3BowlingBall.z -= fBallMove;
@@ -455,6 +455,9 @@ void Application::ProcessKeyboard(void)
 		m_v3BowlingBall.x -= fBallMove;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		m_v3BowlingBall.x += fBallMove;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -80.0f), 10);
 #pragma endregion
 
 }
