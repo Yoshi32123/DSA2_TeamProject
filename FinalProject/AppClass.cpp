@@ -80,11 +80,10 @@ void Application::InitVariables(void)
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 
-	//Need to add a bowling ball model
-	//m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj");
-	//v3Position = vector3(1.875f, 0.0f, 46.25f);
-	//m4Position = glm::translate(v3Position);
-	//m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj");
+	v3Position = vector3(0.0f, 0.0f, 80.0f);
+	m4Position = glm::translate(v3Position);
+	m_pEntityMngr->SetModelMatrix(m4Position);
 
 	m_uOctantLevels = 1;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);
