@@ -71,9 +71,9 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	switch (a_event.key.code)
 	{
 	default: break;
-	case sf::Keyboard::Space:
+	/*case sf::Keyboard::Space:
 		m_sound.play();
-		break;
+		break;*/
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:
 		m_bModifier = true;
@@ -125,8 +125,13 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			m_uOctantID = - 1;
 		
 		break;
-	case sf::Keyboard::Equal:
 	case sf::Keyboard::Space:
+		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -5.0f), "Ball");
+		break;
+	case sf::Keyboard::M:
+		m_bManualMove = !m_bManualMove;
+		break;
+	case sf::Keyboard::Equal:
 	case sf::Keyboard::Add:
 		if (m_uOctantLevels < 4)
 		{
@@ -447,17 +452,17 @@ void Application::ProcessKeyboard(void)
 #pragma region BowlingBall Test Movement
 	float fBallMove = 0.5f;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		m_v3BowlingBall.z -= fBallMove;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		m_v3BowlingBall.z += fBallMove;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		m_v3BowlingBall.x -= fBallMove;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		m_v3BowlingBall.x += fBallMove;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -80.0f), 10);
+	if (!m_bManualMove)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			m_v3BowlingBall.z -= fBallMove;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			m_v3BowlingBall.z += fBallMove;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			m_v3BowlingBall.x -= fBallMove;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			m_v3BowlingBall.x += fBallMove;
+	}
 #pragma endregion
 
 }
