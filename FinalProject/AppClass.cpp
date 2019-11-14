@@ -8,6 +8,7 @@ void Application::InitVariables(void)
 		vector3(0.0f, 8.0f, 99.0f),	//Target
 		AXIS_Y);					//Up
 
+	m_pMeshMngr->GenerateSkybox();
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj"); 
