@@ -11,11 +11,11 @@ void Application::InitVariables(void)
 	m_pMeshMngr->GenerateSkybox();
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball0");
+	/*m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball0");*/
 	m_v3BowlingBall = vector3(0.0f, 0.0f, 80.0f);
 	matrix4 m4Position = glm::translate(m_v3BowlingBall);
-	m_pEntityMngr->SetModelMatrix(m4Position);
-	m_pEntityMngr->UsePhysicsSolver();
+	/*m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();*/
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball");
 	m_v3BowlingBall = vector3(0.0f, 0.0f, 80.0f);
