@@ -126,7 +126,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		
 		break;
 	case sf::Keyboard::Space:
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -5.0f), "Ball");
+		m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -4.0f), "Ball");
 		break;
 	case sf::Keyboard::M:
 		m_bManualMove = !m_bManualMove;
