@@ -27,6 +27,7 @@ class Application
 	// bowling ball fields
 	vector3 m_v3BowlingBall; // Ball Position
 	vector3 m_v3BowlingBallStart; //Ball starting/reset position
+	vector3 m_v3BowlingAlley; // Bowling alley position
 	bool m_bManualMove = true; //Toggles manual ball movement
 	bool m_bCanBowl = true; //Toggles bowling with space functionality
 	bool m_bStartTimeTrack = false; //starts time tracking for time since bowled

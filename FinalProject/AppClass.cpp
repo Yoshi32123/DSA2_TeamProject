@@ -21,9 +21,10 @@ void Application::InitVariables(void)
 	m_pEntityMngr->UsePhysicsSolver();
 	m_pEntityMngr->GetEntity(0)->GetSolver()->SetMass(16.0f);
 
+
 #pragma region Pins
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	vector3 v3Position = vector3(0.0f, 0.0f, 50.0f);
+	vector3 v3Position = vector3(0.0f, 0.3f, 50.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -31,7 +32,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(-0.625f, 0.0f, 48.75f);
+	v3Position = vector3(-0.625f, 0.3f, 48.75f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -39,7 +40,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(0.625f, 0.0f, 48.75f);
+	v3Position = vector3(0.625f, 0.3f, 48.75f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -47,7 +48,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(-1.25f, 0.0f, 47.5f);
+	v3Position = vector3(-1.25f, 0.3f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -55,7 +56,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(0.0f, 0.0f, 47.5f);
+	v3Position = vector3(0.0f, 0.3f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -63,7 +64,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(1.25f, 0.0f, 47.5f);
+	v3Position = vector3(1.25f, 0.3f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -71,7 +72,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(-1.875f, 0.0f, 46.25f);
+	v3Position = vector3(-1.875f, 0.3f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -79,7 +80,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(-0.625f, 0.0f, 46.25f);
+	v3Position = vector3(-0.625f, 0.3f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -87,7 +88,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(0.625f, 0.0f, 46.25f);
+	v3Position = vector3(0.625f, 0.3f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -95,7 +96,7 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
-	v3Position = vector3(1.875f, 0.0f, 46.25f);
+	v3Position = vector3(1.875f, 0.3f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
@@ -103,6 +104,64 @@ void Application::InitVariables(void)
 	m_lPinLocations.push_back(v3Position);
 #pragma endregion
 
+#pragma region Lane
+	// Make lane
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(0.0f, -1.5f, 55.0f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(3.05f, -1.5f, 55.0f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(-3.05f, -1.5f, 55.0f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(0.0f, -1.5f, 77.74f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(3.05f, -1.5f, 77.74f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
+	m_v3BowlingAlley = vector3(-3.05f, -1.5f, 77.74f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj");
+	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj");
+	m_v3BowlingAlley = vector3(0.0f, -20.0f, 43.5f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\PinStopWall.obj");
+	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\PinStopWall.obj");
+	m_v3BowlingAlley = vector3(-10.0f, -8.0f, 43.5f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	m_pEntityMngr->AddEntity("Objects\\PinStopBack.obj");
+	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
+	m4Position = glm::translate(m_v3BowlingAlley);
+	m_pEntityMngr->SetModelMatrix(m4Position);
+
+#pragma endregion
 
 	/*m_uOctantLevels = 1;
 	m_pRoot = new MyOctant(m_uOctantLevels, 5);*/
@@ -144,6 +203,8 @@ void Application::Update(void)
 
 			if (m_uTimesBowled == 2)
 			{
+				m_uTimesBowled = 0;
+
 				for (int i = 0; i < 10; i++)
 				{
 					m_pEntityMngr->SetPosition(m_lPinLocations[i], i + 1);
