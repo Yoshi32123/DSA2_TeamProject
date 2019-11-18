@@ -24,11 +24,21 @@ class Application
 	uint m_uObjects = 0; //Number of objects in the scene
 	uint m_uOctantLevels = 0; //Number of levels in the octree
 
-	vector3 m_v3BowlingBall;
-	bool m_bManualMove = true;
+	// bowling ball fields
+	vector3 m_v3BowlingBall; // Ball Position
+	vector3 m_v3BowlingBallStart; //Ball starting/reset position
+	bool m_bManualMove = true; //Toggles manual ball movement
+	bool m_bCanBowl = true; //Toggles bowling with space functionality
+	bool m_bStartTimeTrack = false; //starts time tracking for time since bowled
+	uint m_uTimeBowled = 0; //Start time for when space was pressed to bowl
+	uint m_uTimeSinceBowled = 0; //Time since space was pressed to bowl
+	uint m_uTimesBowled = 0; //Tracks times bowled for resetting pins
+
+	// pin location tracking
+	std::vector<vector3> m_lPinLocations;
 
 private:
-	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu"; //programmer
+	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu\nTrenton Plager - tlp6760@g.rit.edu\nAlex Pecore - app2076@g.rit.edu\nJerry Wexler - jzw5422@g.rit.edu\nAkshat Rawat - axr@g.rit.edu"; //programmer
 
 	static ImGuiObject gui; //GUI object
 	bool m_bGUI_Main = true; //show Main GUI window?
