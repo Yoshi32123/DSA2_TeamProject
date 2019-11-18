@@ -18,70 +18,81 @@ void Application::InitVariables(void)
 	m_pEntityMngr->UsePhysicsSolver();*/
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball");
-	m_v3BowlingBall = vector3(0.0f, 0.0f, 80.0f);
+	m_v3BowlingBall = vector3(0.5f, 0.0f, 80.0f);
 	m4Position = glm::translate(m_v3BowlingBall);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(0)->GetSolver()->SetMass(16.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj"); 
 	vector3 v3Position = vector3(0.0f, 0.0f, 50.0f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
-	m_pEntityMngr->UsePhysicsSolver(); 
+	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(1)->GetSolver()->SetMass(3.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
 	v3Position = vector3(-0.625f, 0.0f, 48.75f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(2)->GetSolver()->SetMass(3.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
 	v3Position = vector3(0.625f, 0.0f, 48.75f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(3)->GetSolver()->SetMass(3.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
 	v3Position = vector3(-1.25f, 0.0f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(4)->GetSolver()->SetMass(3.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
 	v3Position = vector3(0.0f, 0.0f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(5)->GetSolver()->SetMass(3.0f);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
 	v3Position = vector3(1.25f, 0.0f, 47.5f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(6)->GetSolver()->SetMass(3.0f);
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
+	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj", "Pin7");
 	v3Position = vector3(-1.875f, 0.0f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(7)->GetSolver()->SetMass(3.0f);
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
+	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj", "Pin8");
 	v3Position = vector3(-0.625f, 0.0f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(8)->GetSolver()->SetMass(3.0f);
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
+	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj", "Pin9");
 	v3Position = vector3(0.625f, 0.0f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(9)->GetSolver()->SetMass(3.0f);
 
-	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj");
+	m_pEntityMngr->AddEntity("Objects\\BowlingPinModel.obj", "Pin10");
 	v3Position = vector3(1.875f, 0.0f, 46.25f);
 	m4Position = glm::translate(v3Position);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(10)->GetSolver()->SetMass(3.0f);
 
 
 	/*m_uOctantLevels = 1;
