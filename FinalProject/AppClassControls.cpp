@@ -112,17 +112,17 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		m_pCameraMngr->SetFPS(bFPSControl);
 		break;
 	case sf::Keyboard::PageUp:
-		++m_uOctantID;
+		++m_uGridID;
 		
-		if (m_uOctantID >= m_pRoot->GetOctantCount())
-			m_uOctantID = - 1;
+		if (m_uGridID >= m_pRoot->GetOctantCount())
+			m_uGridID = - 1;
 		
 		break;
 	case sf::Keyboard::PageDown:
-		--m_uOctantID;
+		--m_uGridID;
 		
-		if (m_uOctantID >= m_pRoot->GetOctantCount())
-			m_uOctantID = - 1;
+		if (m_uGridID >= m_pRoot->GetOctantCount())
+			m_uGridID = - 1;
 		
 		break;
 	case sf::Keyboard::Space:
@@ -143,29 +143,29 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		break;
 	case sf::Keyboard::Equal:
 	case sf::Keyboard::Add:
-		if (m_uOctantLevels < 4)
-		{
-			m_pEntityMngr->ClearDimensionSetAll();
-			++m_uOctantLevels;
-			
-			// destroy octree from root, and create from scratch
-			SafeDelete(m_pRoot);
-			m_pRoot = new MyOctant(m_uOctantLevels, 5);
-			
-		}
+		//if (m_uGridLevels < 4)
+		//{
+		//	m_pEntityMngr->ClearDimensionSetAll();
+		//	++m_uGridLevels;
+		//	
+		//	// destroy octree from root, and create from scratch
+		//	SafeDelete(m_pRoot);
+		//	m_pRoot = new MyGrid(m_uGridLevels, 5);
+		//	
+		//}
 		break;
 	case sf::Keyboard::Dash:
 	case sf::Keyboard::Subtract:
-		if (m_uOctantLevels > 0)
-		{
-			m_pEntityMngr->ClearDimensionSetAll();
-			--m_uOctantLevels;
-			
-			// destroy octree from root, and create from scratch
-			SafeDelete(m_pRoot);
-			m_pRoot = new MyOctant(m_uOctantLevels, 5);
-			
-		}
+		//if (m_uGridLevels > 0)
+		//{
+		//	m_pEntityMngr->ClearDimensionSetAll();
+		//	--m_uGridLevels;
+		//	
+		//	// destroy octree from root, and create from scratch
+		//	SafeDelete(m_pRoot);
+		//	m_pRoot = new MyGrid(m_uGridLevels, 5);
+		//	
+		//}
 		break;
 	case sf::Keyboard::LShift:
 	case sf::Keyboard::RShift:

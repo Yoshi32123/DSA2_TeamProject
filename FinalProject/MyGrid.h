@@ -13,16 +13,16 @@ namespace Simplex
 	//System Class
 	class MyGrid
 	{
-		//static uint m_uGridCount; //will store the number of octants instantiated
-		//static uint m_uMaxLevel;//will store the maximum level an octant can go to
-		//static uint m_uIdealEntityCount; //will tell how many ideal Entities this object will contain
+		static uint m_uGridCount; //will store the number of octants instantiated
+		static uint m_uMaxLevel;//will store the maximum level an octant can go to
+		static uint m_uIdealEntityCount; //will tell how many ideal Entities this object will contain
 
 		uint m_uID = 0; //Will store the current ID for this octant
-		//uint m_uLevel = 0; //Will store the current level of the octant
-		//uint m_uChildren = 0;// Number of children on the octant (either 0 or 8)
+		uint m_uLevel = 0; //Will store the current level of the octant
+		uint m_uChildren = 0;// Number of children on the octant (either 0 or 6)
 
 		float m_fSizeX = 0.0f; //Size of the octant
-		float m_fSizeY = 0.0f; //Size of the octant
+		float m_fSizeZ = 0.0f; //Size of the octant
 
 		MeshManager* m_pMeshMngr = nullptr;//Mesh Manager singleton
 		MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager Singleton
@@ -31,8 +31,8 @@ namespace Simplex
 		vector3 m_v3Min = vector3(0.0f); //Will store the minimum vector of the octant
 		vector3 m_v3Max = vector3(0.0f); //Will store the maximum vector of the octant
 
-		//MyGrid* m_pParent = nullptr;// Will store the parent of current octant
-		//MyGrid* m_pChild[8];//Will store the children of the current octant
+		MyGrid* m_pParent = nullptr;// Will store the parent of current octant
+		MyGrid* m_pChild[6];//Will store the children of the current octant
 
 		std::vector<uint> m_EntityList; //List of Entities under this octant (Index in Entity Manager)
 
@@ -56,7 +56,7 @@ namespace Simplex
 		- float a_fSize -> size of each side of the octant volume
 		OUTPUT: class object
 		*/
-		MyGrid(vector3 a_v3Center, float a_fSize);
+		MyGrid(vector3 a_v3Center, float a_fSizeX, float a_fSizeY);
 		/*
 		USAGE: Copy Constructor
 		ARGUMENTS: class object to copy
@@ -87,7 +87,13 @@ namespace Simplex
 		ARGUMENTS: ---
 		OUTPUT: size of octant
 		*/
-		float GetSize(void);
+		float GetSizeX(void);
+		/*
+		USAGE: Gets this octant's size
+		ARGUMENTS: ---
+		OUTPUT: size of octant
+		*/
+		float GetSizeZ(void);
 		/*
 		USAGE: Gets the center of the octant in global scape
 		ARGUMENTS: ---

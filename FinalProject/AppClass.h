@@ -12,17 +12,17 @@ Date: 2019/10
 
 #include "MyEntityManager.h"
 
-#include "MyOctantExample.h"
+#include "MyGrid.h"
 namespace Simplex
 {
 	//Adding Application to the Simplex namespace
 class Application
 {
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
-	MyOctant* m_pRoot = nullptr;//Root octant
-	uint m_uOctantID = -1; //Index of Octant to display
+	MyGrid* m_pRoot = nullptr;//Root octant
+	uint m_uGridID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
-	uint m_uOctantLevels = 0; //Number of levels in the octree
+	uint m_uGridLevels = 0; //Number of levels in the octree
 
 	// bowling ball fields
 	vector3 m_v3BowlingBall; // Ball Position

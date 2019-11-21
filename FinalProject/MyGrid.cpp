@@ -2,20 +2,21 @@
 using namespace Simplex;
 
 /// MyGrid
-uint MyGrid::m_uOctantCount = 0;
+uint MyGrid::m_uGridCount = 0;
 uint MyGrid::m_uMaxLevel = 3;
 uint MyGrid::m_uIdealEntityCount = 5;
-uint MyGrid::GetOctantCount(void) { return m_uOctantCount; }
+uint MyGrid::GetOctantCount(void) { return m_uGridCount; }
 
 /// Initialize all starter variables
 void MyGrid::Init(void)
 {
 	// start with no children and a size of zero
 	m_uChildren = 0;
-	m_fSize = 0.0f;
+	m_fSizeX = 0.0f;
+	m_fSizeZ = 0.0f; 
 
 	// starting ID and level
-	m_uID = m_uOctantCount;
+	m_uID = m_uGridCount;
 	m_uLevel = 0;
 
 	// start center, max, min at 0
@@ -32,7 +33,7 @@ void MyGrid::Init(void)
 	m_pParent = nullptr;
 
 	// set all child octants as nullptr
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 6; i++)
 	{
 		m_pChild[i] = nullptr;
 	}
@@ -45,7 +46,8 @@ void MyGrid::Swap(MyGrid& other)
 	std::swap(m_uChildren, other.m_uChildren);
 
 	// octant info
-	std::swap(m_fSize, other.m_fSize);
+	std::swap(m_fSizeX, other.m_fSizeX);
+	std::swap(m_fSizeZ, other.m_fSizeZ);
 	std::swap(m_uID, other.m_uID);
 	std::swap(m_pRoot, other.m_pRoot);
 	std::swap(m_lChild, other.m_lChild);
@@ -64,7 +66,7 @@ void MyGrid::Swap(MyGrid& other)
 	std::swap(m_pParent, other.m_pParent);
 
 	// recursive call for all existing children
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 6; i++)
 	{
 		std::swap(m_pChild[i], other.m_pChild[i]);
 	}
@@ -83,7 +85,8 @@ void MyGrid::Release(void)
 
 	// sets main values to default/clears
 	m_uChildren = 0;
-	m_fSize = 0.0f;
+	m_fSizeX = 0.0f;
+	m_fSizeZ = 0.0f;
 	m_EntityList.clear();
 	m_lChild.clear();
 }
@@ -94,10 +97,10 @@ MyGrid::MyGrid(uint a_MaxLevel, uint a_IdealEntity)
 	//Initalize defaults
 	Init();
 
-	m_uOctantCount = 0;
+	m_uGridCount = 0;
 	m_uMaxLevel = a_MaxLevel;
 	m_uIdealEntityCount = a_IdealEntity;
-	m_uID = m_uOctantCount;
+	m_uID = m_uGridCount;
 
 	// this is the root, clear any children
 	m_pRoot = this;
@@ -109,30 +112,34 @@ MyGrid::MyGrid(uint a_MaxLevel, uint a_IdealEntity)
 	//get # of objects
 	uint objects = m_pEntityMngr->GetEntityCount();
 
-	// loop through objects and store their rigidbody and entity
-	for (uint i = 0; i < objects; i++)
-	{
-		// Get the rigidbody through the entity
-		MyEntity* pEntity = m_pEntityMngr->GetEntity(i);
-		MyRigidBody* pRigidBody = pEntity->GetRigidBody();
+	//// loop through objects and store their rigidbody and entity
+	//for (uint i = 0; i < objects; i++)
+	//{
+	//	// Get the rigidbody through the entity
+	//	MyEntity* pEntity = m_pEntityMngr->GetEntity(i);
+	//	MyRigidBody* pRigidBody = pEntity->GetRigidBody();
 
-		// Add their min/max to list
-		lMinMax.push_back(pRigidBody->GetMaxGlobal());
-		lMinMax.push_back(pRigidBody->GetMinGlobal());
-	}
+	//	// Add their min/max to list
+	//	lMinMax.push_back(pRigidBody->GetMaxGlobal());
+	//	lMinMax.push_back(pRigidBody->GetMinGlobal());
+	//}
+
+	lMinMax.push_back(vector3(18.0f, 0, 55.0f));
+	lMinMax.push_back(vector3(-18.0f, 0, 25.0f));
 
 	MyRigidBody* pRigidBody = new MyRigidBody(lMinMax);
 
 	// determining max based on halfwidths
 	vector3 halfWidth = pRigidBody->GetHalfWidth();
-	float fMax = halfWidth.x;
-	for (int i = 1; i < 3; i++)
-	{
-		if (fMax < halfWidth[i])
-		{
-			fMax = halfWidth[i];
-		}
-	}
+	float fMaxX = halfWidth.x;
+	float fMaxZ = halfWidth.z; 
+	//for (int i = 1; i < 3; i++)
+	//{
+	//	if (fMax < halfWidth[i])
+	//	{
+	//		fMax = halfWidth[i];
+	//	}
+	//}
 
 	// prep for creation
 	vector3 v3Center = pRigidBody->GetCenterLocal();
@@ -140,27 +147,29 @@ MyGrid::MyGrid(uint a_MaxLevel, uint a_IdealEntity)
 	SafeDelete(pRigidBody);
 
 	// setting values since checks are done
-	m_fSize = fMax * 2.0f;
+	m_fSizeX = fMaxX * 2.0f;
+	m_fSizeZ = fMaxZ * 2.0f;
 	m_v3Center = v3Center;
-	m_v3Min = m_v3Center - (vector3(fMax));
-	m_v3Max = m_v3Center + (vector3(fMax));
-	m_uOctantCount++;
+	m_v3Min = m_v3Center - (vector3(fMaxX, 0, fMaxZ));
+	m_v3Max = m_v3Center + (vector3(fMaxX, 0, fMaxZ));
+	m_uGridCount++;
 
 	// construct the octree
 	ConstructTree(m_uMaxLevel);
 
 }
-MyGrid::MyGrid(vector3 a_v3Center, float a_fSize)
+MyGrid::MyGrid(vector3 a_v3Center, float a_fSizeX, float a_fSizeZ)
 {
 	//Initalize default values
 	Init();
 	m_v3Center = a_v3Center;
-	m_fSize = a_fSize;
+	m_fSizeX = a_fSizeX;
+	m_fSizeZ = a_fSizeZ; 
 
-	m_v3Max = m_v3Center + (vector3(m_fSize) / 2.0f);
-	m_v3Min = m_v3Center - (vector3(m_fSize) / 2.0f);
+	m_v3Max = m_v3Center + (vector3(m_fSizeX, 0, m_fSizeZ) / 2.0f);
+	m_v3Min = m_v3Center - (vector3(m_fSizeX, 0, m_fSizeZ) / 2.0f);
 
-	m_uOctantCount++;
+	m_uGridCount++;
 }
 MyGrid::MyGrid(MyGrid const& other)
 {
@@ -169,7 +178,8 @@ MyGrid::MyGrid(MyGrid const& other)
 	m_v3Max = other.m_v3Max;
 	m_v3Min = other.m_v3Min;
 
-	m_fSize = other.m_fSize;
+	m_fSizeX = other.m_fSizeX;
+	m_fSizeZ = other.m_fSizeZ;
 	m_uID = other.m_uID;
 	m_uLevel = other.m_uLevel;
 	m_pParent = other.m_pParent;
@@ -180,7 +190,7 @@ MyGrid::MyGrid(MyGrid const& other)
 	m_pMeshMngr = MeshManager::GetInstance();
 	m_pEntityMngr = MyEntityManager::GetInstance();
 
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 6; i++)
 	{
 		m_pChild[i] = other.m_pChild[i];
 	}
@@ -200,7 +210,8 @@ MyGrid& MyGrid::operator=(MyGrid const& other)
 MyGrid::~MyGrid() { Release(); }
 
 /// Accessors
-float MyGrid::GetSize(void) { return m_fSize; }
+float MyGrid::GetSizeX(void) { return m_fSizeX; }
+float MyGrid::GetSizeZ(void) { return m_fSizeZ; }
 vector3 MyGrid::GetCenterGlobal(void) { return m_v3Center; }
 vector3 MyGrid::GetMaxGlobal(void) { return m_v3Max; }
 vector3 MyGrid::GetMinGlobal(void) { return m_v3Min; }
@@ -210,7 +221,7 @@ void MyGrid::Display(uint a_Index, vector3 a_v3Color)
 {
 	if (m_uID == a_Index)
 	{
-		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), a_v3Color, RENDER_WIRE);
+		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 0, m_fSizeZ)), a_v3Color, RENDER_WIRE);
 		return;
 	}
 
@@ -225,7 +236,7 @@ void MyGrid::Display(vector3 a_v3Color)
 	{
 		m_pChild[i]->Display(a_v3Color);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), a_v3Color, RENDER_WIRE);
+	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 0, m_fSizeZ)), a_v3Color, RENDER_WIRE);
 }
 void MyGrid::Subdivide(void)
 {
@@ -235,9 +246,11 @@ void MyGrid::Subdivide(void)
 	//If already subdivided, do nothing
 	if (m_uChildren != 0) { return; }
 
-	m_uChildren = 8;
-	float fSize = m_fSize / 4.0f;
-	float fsizeDouble = fSize * 2.0f;
+	m_uChildren = 6;
+	float fSizeX = m_fSizeX / 6.0f;
+	float fSizeZ = m_fSizeZ / 4.0f; 
+	float fsizeDoubleX = fSizeX * 2.0f;
+	float fsizeDoubleZ = fSizeZ * 2.0f;
 	vector3 v3Center;
 
 	/* CREATING OCTANTS
@@ -245,60 +258,50 @@ void MyGrid::Subdivide(void)
 	* CLOCKWISE STARTING AT BOTTOM LEFT CORNER, MOVE TO TOP AFTER
 	*/
 
-	//Octant 0: Bottom Left Backside
+	//Octant 0: Left Backside
 	v3Center = m_v3Center;
-	v3Center.x -= fSize;
-	v3Center.y -= fSize;
-	v3Center.z -= fSize;
-	m_pChild[0] = new MyGrid(v3Center, fsizeDouble);
+	v3Center.x -= fsizeDoubleX;
+	v3Center.z -= fSizeZ;
+	m_pChild[0] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 1: Bottom Right Backside
-	v3Center.x += fsizeDouble;
-	m_pChild[1] = new MyGrid(v3Center, fsizeDouble);
+	//Octant 1: Center Backside
+	v3Center.x += fsizeDoubleX;
+	m_pChild[1] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 2: Bottom Right Frontside
-	v3Center.z += fsizeDouble;
-	m_pChild[2] = new MyGrid(v3Center, fsizeDouble);
+	//Octant 2: Right Backside
+	v3Center.x += fsizeDoubleX;
+	m_pChild[2] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 3: Bottom Left Frontside
-	v3Center.x -= fsizeDouble;
-	m_pChild[3] = new MyGrid(v3Center, fsizeDouble);
+	//Octant 3: Right Frontside
+	v3Center.z += fsizeDoubleZ;
+	m_pChild[3] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 4: Top Left Frontside
-	v3Center.y += fsizeDouble;
-	m_pChild[4] = new MyGrid(v3Center, fsizeDouble);
+	//Octant 4: Center Frontside
+	v3Center.x -= fsizeDoubleX;
+	m_pChild[4] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 5: Top Left Backside
-	v3Center.z -= fsizeDouble;
-	m_pChild[5] = new MyGrid(v3Center, fsizeDouble);
+	//Octant 5: Left Frontside
+	v3Center.x -= fsizeDoubleX;
+	m_pChild[5] = new MyGrid(v3Center, fsizeDoubleX, fsizeDoubleZ);
 
-	//Octant 6: Top Right Backside
-	v3Center.x += fsizeDouble;
-	m_pChild[6] = new MyGrid(v3Center, fsizeDouble);
-
-	//Octant 7: Top Right Frontside
-	v3Center.z += fsizeDouble;
-	m_pChild[7] = new MyGrid(v3Center, fsizeDouble);
-
-
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 6; i++)
 	{
 		//set root parent and level
 		m_pChild[i]->m_pRoot = m_pRoot;
 		m_pChild[i]->m_pParent = this;
 		m_pChild[i]->m_uLevel = m_uLevel + 1;
 
-		//if more objects than ideal, subdivide
-		if (m_pChild[i]->ContainsMoreThan(m_uIdealEntityCount))
-		{
-			m_pChild[i]->Subdivide();
-		}
+		////if more objects than ideal, subdivide
+		//if (m_pChild[i]->ContainsMoreThan(m_uIdealEntityCount))
+		//{
+		//	m_pChild[i]->Subdivide();
+		//}
 	}
 
 }
 MyGrid* MyGrid::GetChild(uint a_child)
 {
-	if (a_child > 7) { return nullptr; }
+	if (a_child > 5) { return nullptr; }
 	return m_pChild[a_child];
 }
 bool MyGrid::IsColliding(uint a_uIndex)
@@ -360,7 +363,7 @@ void MyGrid::DisplayLeafs(vector3 a_v3Color)
 	{
 		m_lChild[i]->DisplayLeafs(a_v3Color);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)), a_v3Color, RENDER_WIRE);
+	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 0, m_fSizeZ)), a_v3Color, RENDER_WIRE);
 }
 void MyGrid::ClearEntityList(void)
 {
@@ -377,7 +380,7 @@ void MyGrid::ConstructTree(uint a_MaxLevel)
 	if (m_uLevel != 0) { return; }
 
 	m_uMaxLevel = a_MaxLevel;
-	m_uOctantCount = 1;
+	m_uGridCount = 1;
 
 	// clear tree
 	m_EntityList.clear();
