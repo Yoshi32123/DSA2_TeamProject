@@ -257,15 +257,42 @@ void Application::Update(void)
 	}
 
 	// Set up bumpers if they are enabled or not
-	if (m_bBumpersEnabled)
+	if (!m_bBumpersMade && m_bBumpersEnabled)
 	{
 		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
-		m_v3BowlingAlley = vector3(-3.05f, -1.5f, 77.74f);
+		m_v3BowlingAlley = vector3(-4.0f, -1.0f, 60.0f);
 		matrix4 m4Position = glm::translate(m_v3BowlingAlley);
 		m_pEntityMngr->SetModelMatrix(m4Position);
+
+		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
+		m_v3BowlingAlley = vector3(-4.0f, -1.0f, 77.5f);
+		m4Position = glm::translate(m_v3BowlingAlley);
+		m_pEntityMngr->SetModelMatrix(m4Position);
+
+		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
+		m_v3BowlingAlley = vector3(4.0f, -1.0f, 60.0f);
+		m4Position = glm::translate(m_v3BowlingAlley);
+		m_pEntityMngr->SetModelMatrix(m4Position);
+
+		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
+		m_v3BowlingAlley = vector3(4.0f, -1.0f, 77.5f);
+		m4Position = glm::translate(m_v3BowlingAlley);
+		m_pEntityMngr->SetModelMatrix(m4Position);
+
+		// Set the bumpers made bool to true so that bumpers aren't constantly being made
+		m_bBumpersMade = true;
+		m_bBumpersDestroyed = false;
 	}
-	else {
-		//m_pEntityMngr->RemoveEntity("bumper");
+	else if(!m_bBumpersDestroyed && !m_bBumpersEnabled)
+	{
+		for (uint i = 0; i < 4; i++)
+		{
+			m_pEntityMngr->RemoveEntity("bumper");
+		}
+
+		// Set bools so that code doesn't commit un-alive
+		m_bBumpersDestroyed = true;
+		m_bBumpersMade = false;
 	}
 
 	// If the ball cannot be bowled, that means that it is currently being bowled so all positions and fields should be updated
