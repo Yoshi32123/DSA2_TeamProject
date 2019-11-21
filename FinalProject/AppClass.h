@@ -38,10 +38,14 @@ class Application
 	uint m_uTimeSinceBowled = 0; //Time since space was pressed to bowl
 	uint m_uTimesBowled = 0; //Tracks times bowled for resetting pins
 
-	// pin location tracking
+	// pin fields
 	std::vector<vector3> m_lPinLocations;
 	uint uPinStartIndex;
 	uint uPinCount;
+
+	// alley fields
+	uint uAlleyStartIndex;
+	uint uAlleyPieces = 6;
 
 private:
 	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu\nTrenton Plager - tlp6760@g.rit.edu\nAlex Pecore - app2076@g.rit.edu\nJerry Wexler - jzw5422@g.rit.edu\nAkshat Rawat - axr@g.rit.edu"; //programmer

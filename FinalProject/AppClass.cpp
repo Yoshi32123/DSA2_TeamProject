@@ -11,20 +11,21 @@ void Application::InitVariables(void)
 	m_pMeshMngr->GenerateSkybox();
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
-	m_v3BowlingBallStart = vector3(0.5f, 0.0f, 80.0f);
+	m_v3BowlingBallStart = vector3(0.5f, 2.5f, 80.0f);
 	matrix4 m4Position = glm::translate(m_v3BowlingBall);
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingBallModel.obj", "Ball");
-	m_v3BowlingBall = vector3(0.5f, 0.0f, 80.0f);
+	m_v3BowlingBall = vector3(0.5f, 2.5f, 80.0f);
 	m4Position = glm::translate(m_v3BowlingBall);
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 	m_pEntityMngr->GetEntity(0)->GetSolver()->SetMass(16.0f);
 
-	float fLaneHeight = 0.0f;
+	float fLaneHeight = 2.5f;
 	float fPinMass = 3.0f;
 	uPinStartIndex = 1;
 	uPinCount = 10;
+
 #pragma region Pins
 
 #pragma region Center Pins
@@ -164,36 +165,51 @@ void Application::InitVariables(void)
 
 #pragma region Lane
 #pragma region Main Lane
+	float fMakeLane = -0.5f;
+
 	// Make lane
-	/*m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(0.0f, -2.5f, 55.0f);
+	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj", "firstLane");
+	m_v3BowlingAlley = vector3(0.0f, fMakeLane, 55.0f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(3.05f, -2.5f, 55.0f);
+	m_v3BowlingAlley = vector3(3.05f, fMakeLane, 55.0f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(-3.05f, -2.5f, 55.0f);
+	m_v3BowlingAlley = vector3(-3.05f, fMakeLane, 55.0f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(0.0f, -2.5f, 77.74f);
+	m_v3BowlingAlley = vector3(0.0f, fMakeLane, 77.74f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(3.05f, -2.5f, 77.74f);
+	m_v3BowlingAlley = vector3(3.05f, fMakeLane, 77.74f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
 
 	m_pEntityMngr->AddEntity("Objects\\BowlingAlleyModel.obj");
-	m_v3BowlingAlley = vector3(-3.05f, -2.5f, 77.74f);
+	m_v3BowlingAlley = vector3(-3.05f, fMakeLane, 77.74f);
 	m4Position = glm::translate(m_v3BowlingAlley);
-	m_pEntityMngr->SetModelMatrix(m4Position);*/
+	m_pEntityMngr->SetModelMatrix(m4Position);
+	m_pEntityMngr->UsePhysicsSolver();
+
+	uAlleyStartIndex = m_pEntityMngr->GetEntityIndex("firstLane");
+	for (int i = 0; i < uAlleyPieces; i++)
+	{
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(100.0f);
+	}
+
 #pragma endregion
 
 #pragma region Other Lanes
