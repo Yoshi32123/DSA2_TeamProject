@@ -17,6 +17,8 @@ namespace Simplex
 		vector3 m_v3Size = vector3(1.0f); //Size of the MySolver
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
+		bool m_bLane = false;
+		float m_fFriction;
 	public:
 		/*
 		USAGE: Constructor
@@ -74,6 +76,19 @@ namespace Simplex
 		OUTPUT: size of the solver
 		*/
 		vector3 GetSize(void);
+
+		/*
+		USAGE: Sets the Size of the solver
+		ARGUMENTS: vector3 a_v3Size -> position to set
+		OUTPUT: ---
+		*/
+		void SetLane(bool a_bIsLane);
+		/*
+		USAGE: Gets the size of the solver
+		ARGUMENTS: ---
+		OUTPUT: size of the solver
+		*/
+		bool GetLane(void);
 
 		/*
 		USAGE: Sets the velocity of the solver

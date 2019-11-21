@@ -208,6 +208,7 @@ void Application::InitVariables(void)
 	for (int i = 0; i < uAlleyPieces; i++)
 	{
 		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(100.0f);
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetLane(true);
 	}
 
 #pragma endregion

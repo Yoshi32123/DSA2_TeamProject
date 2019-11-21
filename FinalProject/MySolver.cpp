@@ -45,6 +45,15 @@ vector3 MySolver::GetPosition(void) { return m_v3Position; }
 void MySolver::SetSize(vector3 a_v3Size) { m_v3Size = a_v3Size; }
 vector3 MySolver::GetSize(void) { return m_v3Size; }
 
+void Simplex::MySolver::SetLane(bool a_bIsLane)
+{
+	m_bLane = a_bIsLane;
+}
+bool Simplex::MySolver::GetLane(void)
+{
+	return m_bLane;
+}
+
 void MySolver::SetVelocity(vector3 a_v3Velocity) { m_v3Velocity = a_v3Velocity; }
 vector3 MySolver::GetVelocity(void) { return m_v3Velocity; }
 
@@ -119,8 +128,12 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 	float fMassOther = a_pOther->GetMass();
 
 	vector3 v3Direction = m_v3Position - a_pOther->m_v3Position;
+
 	if (glm::length(v3Direction) != 0)
 		v3Direction = glm::normalize(v3Direction);
+
+	if (m_bLane || a_pOther->m_bLane)
+		v3Direction = vector3(0.0f, 1.0f, 0.0f);
 
 	if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
