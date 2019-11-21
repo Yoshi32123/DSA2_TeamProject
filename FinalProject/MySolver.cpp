@@ -115,19 +115,25 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 	float fMagThis = glm::length(m_v3Velocity);
 	float fMagOther = glm::length(m_v3Velocity);
 
+	float fMassThis = this->GetMass();
+	float fMassOther = a_pOther->GetMass();
+
+	vector3 v3Direction = m_v3Position - a_pOther->m_v3Position;
+	if (glm::length(v3Direction) != 0)
+		v3Direction = glm::normalize(v3Direction);
+
 	if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
-		//a_pOther->ApplyForce(GetVelocity());
-		ApplyForce(-m_v3Velocity);
-		a_pOther->ApplyForce(m_v3Velocity);
+		float fCollisionTime = 0.5f;
+
+		vector3 m_v3VelDirThis = -a_pOther->GetVelocity() * (v3Direction * 0.2);
+		ApplyForce(fMassOther * m_v3VelDirThis / fCollisionTime);
+
+		vector3 m_v3VelDirOther = -m_v3Velocity * (v3Direction * 0.2);
+		a_pOther->ApplyForce(fMassThis * m_v3VelDirThis / fCollisionTime);
 	}
-	else
-	{
-		vector3 v3Direction = m_v3Position - a_pOther->m_v3Position;
-		if (glm::length(v3Direction) != 0)
-			v3Direction = glm::normalize(v3Direction);
-		v3Direction *= 0.04f;
-		ApplyForce(v3Direction);
-		a_pOther->ApplyForce(-v3Direction);
-	}
+
+	v3Direction *= 0.05f;
+	ApplyForce(v3Direction);
+	a_pOther->ApplyForce(-v3Direction);
 }
