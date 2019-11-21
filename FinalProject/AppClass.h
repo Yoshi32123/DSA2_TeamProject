@@ -40,6 +40,8 @@ class Application
 
 	// pin location tracking
 	std::vector<vector3> m_lPinLocations;
+	uint uPinStartIndex;
+	uint uPinCount;
 
 private:
 	String m_sProgrammer = "Kyler McQuillan - kjm7088@g.rit.edu\nTrenton Plager - tlp6760@g.rit.edu\nAlex Pecore - app2076@g.rit.edu\nJerry Wexler - jzw5422@g.rit.edu\nAkshat Rawat - axr@g.rit.edu"; //programmer

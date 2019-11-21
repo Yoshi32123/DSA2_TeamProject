@@ -113,7 +113,7 @@ void MySolver::Update(void)
 void MySolver::ResolveCollision(MySolver* a_pOther)
 {
 	float fMagThis = glm::length(m_v3Velocity);
-	float fMagOther = glm::length(m_v3Velocity);
+	float fMagOther = glm::length(a_pOther->GetVelocity());
 
 	float fMassThis = this->GetMass();
 	float fMassOther = a_pOther->GetMass();
@@ -124,13 +124,13 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 
 	if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
-		float fCollisionTime = 0.5f;
+		float fCollisionTime = 0.8f;
 
-		vector3 m_v3VelDirThis = -a_pOther->GetVelocity() * (v3Direction * 0.2);
+		vector3 m_v3VelDirThis = (-a_pOther->GetVelocity() * 0.1) * v3Direction;
 		ApplyForce(fMassOther * m_v3VelDirThis / fCollisionTime);
 
-		vector3 m_v3VelDirOther = -m_v3Velocity * (v3Direction * 0.2);
-		a_pOther->ApplyForce(fMassThis * m_v3VelDirThis / fCollisionTime);
+		vector3 m_v3VelDirOther = (-m_v3Velocity * 0.1) * v3Direction;
+		a_pOther->ApplyForce(fMassThis * m_v3VelDirOther / fCollisionTime);
 	}
 
 	v3Direction *= 0.05f;
