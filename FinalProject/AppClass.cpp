@@ -185,11 +185,14 @@ void Application::Update(void)
 	static double dTimer = m_pSystem->GetDeltaTime(uClock);
 	dTimer += m_pSystem->GetDeltaTime(uClock);
 	
+	// will add to the amount of times bowled
 	if (m_bStartTimeTrack)
 	{
 		m_uTimeBowled = (int)dTimer;
 		m_bStartTimeTrack = false;
 	}
+
+	// If the ball cannot be bowled, that means that it is currently being bowled so all positions and fields should be updated
 	if (!m_bCanBowl)
 	{
 		m_uTimeSinceBowled = (int)dTimer - m_uTimeBowled;
@@ -212,7 +215,7 @@ void Application::Update(void)
 			}
 		}
 	}
-	else
+	else // prevents left and right movement before bowl to go off the lane
 	{
 		if (m_v3BowlingBall.x > 2 && m_bManualMove)
 			m_v3BowlingBall.x = 2;
