@@ -45,6 +45,9 @@ void Application::DrawGUI(void)
 			ImGui::Text("Controls:\n");
 			ImGui::Text("   Use arrow keys to move ball left and right\n");
 			ImGui::Text("   Press spacebar to bowl\n");
+			ImGui::Text("   Press b to toggle bumpers. Bumpers are: ");
+			if (m_bBumpersEnabled) ImGui::Text("   enabled\n");
+			else ImGui::Text("   disabled\n");
 			//ImGui::Text("	 F1: Perspective\n");
 			//ImGui::Text("	 F2: Orthographic X\n");
 			//ImGui::Text("	 F3: Orthographic Y\n");
