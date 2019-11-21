@@ -193,6 +193,18 @@ void Application::Update(void)
 		m_bStartTimeTrack = false;
 	}
 
+	// Set up bumpers if they are enabled or not
+	if (m_bBumpersEnabled)
+	{
+		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
+		m_v3BowlingAlley = vector3(-3.05f, -1.5f, 77.74f);
+		matrix4 m4Position = glm::translate(m_v3BowlingAlley);
+		m_pEntityMngr->SetModelMatrix(m4Position);
+	}
+	else {
+		//m_pEntityMngr->RemoveEntity("bumper");
+	}
+
 	// If the ball cannot be bowled, that means that it is currently being bowled so all positions and fields should be updated
 	if (!m_bCanBowl)
 	{

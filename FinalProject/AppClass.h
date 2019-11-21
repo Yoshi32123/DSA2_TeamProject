@@ -31,6 +31,7 @@ class Application
 	bool m_bManualMove = true; //Toggles manual ball movement
 	bool m_bCanBowl = true; //Toggles bowling with space functionality
 	bool m_bStartTimeTrack = false; //starts time tracking for time since bowled
+	bool m_bBumpersEnabled = false; //Toggles bumpers
 	uint m_uTimeBowled = 0; //Start time for when space was pressed to bowl
 	uint m_uTimeSinceBowled = 0; //Time since space was pressed to bowl
 	uint m_uTimesBowled = 0; //Tracks times bowled for resetting pins

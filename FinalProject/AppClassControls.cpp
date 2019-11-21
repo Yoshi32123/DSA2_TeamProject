@@ -141,6 +141,9 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 	case sf::Keyboard::M:
 		m_bManualMove = !m_bManualMove;
 		break;
+	case sf::Keyboard::B:
+		m_bBumpersEnabled = !m_bBumpersEnabled;
+		break;
 	case sf::Keyboard::Equal:
 	case sf::Keyboard::Add:
 		if (m_uOctantLevels < 4)
