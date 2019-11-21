@@ -135,7 +135,9 @@ void Application::InitVariables(void)
 	m_v3BowlingAlley = vector3(-3.05f, -1.5f, 77.74f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+#pragma endregion
 
+#pragma region Pin stop
 	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj");
 	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
 	m4Position = glm::translate(m_v3BowlingAlley);
@@ -160,7 +162,6 @@ void Application::InitVariables(void)
 	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
-
 #pragma endregion
 
 	/*m_uOctantLevels = 1;
