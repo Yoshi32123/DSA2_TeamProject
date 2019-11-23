@@ -124,8 +124,8 @@ MyGrid::MyGrid(uint a_MaxLevel, uint a_IdealEntity)
 	//	lMinMax.push_back(pRigidBody->GetMinGlobal());
 	//}
 
-	lMinMax.push_back(vector3(18.0f, 0, 55.0f));
-	lMinMax.push_back(vector3(-18.0f, 0, 25.0f));
+	lMinMax.push_back(vector3(18.0f, 10.0f, 55.0f));
+	lMinMax.push_back(vector3(-18.0f, -10.0f, 25.0f));
 
 	MyRigidBody* pRigidBody = new MyRigidBody(lMinMax);
 
@@ -166,8 +166,8 @@ MyGrid::MyGrid(vector3 a_v3Center, float a_fSizeX, float a_fSizeZ)
 	m_fSizeX = a_fSizeX;
 	m_fSizeZ = a_fSizeZ; 
 
-	m_v3Max = m_v3Center + (vector3(m_fSizeX, 0, m_fSizeZ) / 2.0f);
-	m_v3Min = m_v3Center - (vector3(m_fSizeX, 0, m_fSizeZ) / 2.0f);
+	m_v3Max = m_v3Center + (vector3(m_fSizeX, 10.0f, m_fSizeZ) / 2.0f);
+	m_v3Min = m_v3Center - (vector3(m_fSizeX, 10.0f, m_fSizeZ) / 2.0f);
 
 	m_uGridCount++;
 }
@@ -221,7 +221,7 @@ void MyGrid::Display(uint a_Index, vector3 a_v3Color)
 {
 	if (m_uID == a_Index)
 	{
-		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 0, m_fSizeZ)), a_v3Color, RENDER_WIRE);
+		m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 10.0f, m_fSizeZ)), a_v3Color, RENDER_WIRE);
 		return;
 	}
 
@@ -236,7 +236,7 @@ void MyGrid::Display(vector3 a_v3Color)
 	{
 		m_pChild[i]->Display(a_v3Color);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 0, m_fSizeZ)), a_v3Color, RENDER_WIRE);
+	m_pMeshMngr->AddWireCubeToRenderList(glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSizeX, 10.0f, m_fSizeZ)), a_v3Color, RENDER_WIRE);
 }
 void MyGrid::Subdivide(void)
 {

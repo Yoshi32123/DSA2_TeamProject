@@ -471,10 +471,11 @@ void Application::Update(void)
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
-	m_pRoot->ClearEntityList();
-	m_pRoot->AssignIDtoEntity(); 
-	//SafeDelete(m_pRoot);
-	//m_pRoot = new MyGrid(m_uGridLevels, 5);
+	m_pEntityMngr->ClearDimensionSetAll();
+	//m_pRoot->ClearEntityList();
+	//m_pRoot->AssignIDtoEntity(); 
+	SafeDelete(m_pRoot);
+	m_pRoot = new MyGrid(m_uGridLevels, 5);
 
 	//Add objects to render list
 	if (m_uGridID == -1) 
