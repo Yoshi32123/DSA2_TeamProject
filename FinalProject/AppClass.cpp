@@ -393,22 +393,22 @@ void Application::Update(void)
 	if (!m_bBumpersMade && m_bBumpersEnabled)
 	{
 		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
-		m_v3BowlingAlley = vector3(-4.0f, -1.0f, 60.0f);
+		m_v3BowlingAlley = vector3(-4.0f, 1.25f, 60.0f);
 		matrix4 m4Position = glm::translate(m_v3BowlingAlley);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 
 		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
-		m_v3BowlingAlley = vector3(-4.0f, -1.0f, 77.5f);
+		m_v3BowlingAlley = vector3(-4.0f, 1.25f, 77.5f);
 		m4Position = glm::translate(m_v3BowlingAlley);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 
 		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
-		m_v3BowlingAlley = vector3(4.0f, -1.0f, 60.0f);
+		m_v3BowlingAlley = vector3(4.0f, 1.25f, 60.0f);
 		m4Position = glm::translate(m_v3BowlingAlley);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 
 		m_pEntityMngr->AddEntity("Objects\\BumpersModel.obj", "bumper");
-		m_v3BowlingAlley = vector3(4.0f, -1.0f, 77.5f);
+		m_v3BowlingAlley = vector3(4.0f, 1.25f, 77.5f);
 		m4Position = glm::translate(m_v3BowlingAlley);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 
