@@ -207,7 +207,7 @@ void Application::InitVariables(void)
 	uAlleyStartIndex = m_pEntityMngr->GetEntityIndex("firstLane");
 	for (int i = 0; i < uAlleyPieces; i++)
 	{
-		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(100.0f);
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(1000.0f);
 		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetLane(true);
 	}
 
