@@ -207,7 +207,7 @@ void Application::InitVariables(void)
 	uAlleyStartIndex = m_pEntityMngr->GetEntityIndex("firstLane");
 	for (int i = 0; i < uAlleyPieces; i++)
 	{
-		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(100.0f);
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetMass(1000.0f);
 		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetLane(true);
 	}
 
@@ -360,8 +360,8 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position);
 #pragma endregion
 
-	/*m_uOctantLevels = 1;
-	m_pRoot = new MyOctant(m_uOctantLevels, 5);*/
+	m_uGridLevels = 1;
+	m_pRoot = new MyGrid(m_uGridLevels, 5);
 	m_pEntityMngr->Update();
 }
 void Application::Update(void)
@@ -471,8 +471,14 @@ void Application::Update(void)
 	//Update Entity Manager
 	m_pEntityMngr->Update();
 
+	m_pEntityMngr->ClearDimensionSetAll();
+	//m_pRoot->ClearEntityList();
+	//m_pRoot->AssignIDtoEntity(); 
+	SafeDelete(m_pRoot);
+	m_pRoot = new MyGrid(m_uGridLevels, 5);
+
 	//Add objects to render list
-	if (m_uOctantID == -1) 
+	if (m_uGridID == -1) 
 	{
 		m_pEntityMngr->AddEntityToRenderList(-1, true);
 	}
@@ -480,7 +486,7 @@ void Application::Update(void)
 	{
 		for (uint i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
 		{
-			if (m_pEntityMngr->IsInDimension(i, m_uOctantID))
+			if (m_pEntityMngr->IsInDimension(i, m_uGridID))
 			{
 				m_pEntityMngr->AddEntityToRenderList(i, true);
 			}
@@ -488,6 +494,7 @@ void Application::Update(void)
 	}
 
 	/* -------- End Main Project Code -------- */
+
 	
 }
 void Application::Display(void)
@@ -495,15 +502,15 @@ void Application::Display(void)
 	// Clear the screen
 	ClearScreen();
 
-	////display octree
-	//if (m_uOctantID == -1) //If -1, display base
-	//{
-	//	m_pRoot->Display();
-	//}
-	//else //otherwise display
-	//{
-	//	m_pRoot->Display(m_uOctantID);
-	//}
+	//display octree
+	if (m_uGridID == -1) //If -1, display base
+	{
+		m_pRoot->Display();
+	}
+	else //otherwise display
+	{
+		m_pRoot->Display(m_uGridID);
+	}
 
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
