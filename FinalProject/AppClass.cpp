@@ -282,7 +282,7 @@ void Application::InitVariables(void)
 #pragma region Pin stop
 
 	//centre pin stops
-	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj");
+	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj", "firstPinStop");
 	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
@@ -306,6 +306,12 @@ void Application::InitVariables(void)
 	m_v3BowlingAlley = vector3(0.0f, -8.0f, 43.5f);
 	m4Position = glm::translate(m_v3BowlingAlley);
 	m_pEntityMngr->SetModelMatrix(m4Position);
+
+	uPinStopStartIndex = m_pEntityMngr->GetEntityIndex("firstPinStop");
+	for (int i = 0; i < uPinStopPieces; i++)
+	{
+		m_pEntityMngr->GetEntity(i + uPinStopStartIndex)->GetSolver()->SetMass(1000.0f);
+	}
 
 	//left pin stops
 	m_pEntityMngr->AddEntity("Objects\\PinStopTop.obj");
