@@ -443,6 +443,7 @@ void Application::Update(void)
 			if (m_uTimesBowled == 2)
 			{
 				m_uTimesBowled = 0;
+				
 
 				for (int i = 0; i < uPinCount; i++)
 				{
