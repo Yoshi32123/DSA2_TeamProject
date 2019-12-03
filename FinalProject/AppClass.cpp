@@ -108,6 +108,11 @@ void Application::InitVariables(void)
 	m_pEntityMngr->UsePhysicsSolver();
 	m_pEntityMngr->GetEntity(10)->GetSolver()->SetMass(fPinMass);
 	m_lPinLocations.push_back(v3Position);
+
+	for (int i = 0; i < uPinCount; i++)
+	{
+
+	}
 #pragma endregion
 
 #pragma region Right Pins

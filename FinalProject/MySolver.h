@@ -18,6 +18,9 @@ namespace Simplex
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
 		bool m_bLane = false;
+		bool m_bPin = false;
+		bool m_bPinFalling = false;
+		bool m_bPinStartFalling = false;
 		float m_fFriction;
 	public:
 		/*
@@ -78,17 +81,29 @@ namespace Simplex
 		vector3 GetSize(void);
 
 		/*
-		USAGE: Sets the Size of the solver
-		ARGUMENTS: vector3 a_v3Size -> position to set
+		USAGE: ---
+		ARGUMENTS: ---
 		OUTPUT: ---
 		*/
 		void SetLane(bool a_bIsLane);
 		/*
-		USAGE: Gets the size of the solver
+		USAGE: ---
 		ARGUMENTS: ---
-		OUTPUT: size of the solver
+		OUTPUT: ---
 		*/
 		bool GetLane(void);
+		/*
+		USAGE: Sets the Size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		void SetPin(bool a_bIsPin);
+		/*
+		USAGE: Gets the size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		bool GetPin(void);
 
 		/*
 		USAGE: Sets the velocity of the solver
@@ -140,6 +155,12 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void ResolveCollision(MySolver* a_pOther);
+		/*
+		USAGE: Rotates the pins if the deviate a certain distance from their start
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		void PinFallOver();
 	private:
 		/*
 		Usage: Deallocates member fields

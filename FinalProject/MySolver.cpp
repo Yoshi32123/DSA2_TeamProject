@@ -54,6 +54,15 @@ bool Simplex::MySolver::GetLane(void)
 	return m_bLane;
 }
 
+void Simplex::MySolver::SetPin(bool a_bIsPin)
+{
+}
+
+bool Simplex::MySolver::GetPin(void)
+{
+	return false;
+}
+
 void MySolver::SetVelocity(vector3 a_v3Velocity) { m_v3Velocity = a_v3Velocity; }
 vector3 MySolver::GetVelocity(void) { return m_v3Velocity; }
 
@@ -111,6 +120,13 @@ void MySolver::Update(void)
 	else
 		ApplyFriction(0.015f);
 
+	if (this->m_bPin)
+	{
+		if (this->m_bPinStartFalling && this->m_bPinFalling)
+		{
+			//vector3 
+		}
+	}
 
 	m_v3Velocity = RoundSmallVelocity(m_v3Velocity, 0.028f);
 
@@ -154,4 +170,10 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 	v3Direction *= 0.05f;
 	ApplyForce(v3Direction);
 	a_pOther->ApplyForce(-v3Direction);
+}
+void MySolver::PinFallOver()
+{
+	vector3 m_v3VelocityDir = glm::normalize(m_v3Velocity);
+
+
 }
