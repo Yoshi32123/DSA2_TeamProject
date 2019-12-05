@@ -117,7 +117,7 @@ void Application::InitVariables(void)
 
 	for (int i = 0; i < uPinCount; i++)
 	{
-
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetPin(true);
 	}
 #pragma endregion
 

@@ -7,6 +7,7 @@ void MySolver::Init(void)
 	m_v3Position = ZERO_V3;
 	m_v3Velocity = ZERO_V3;
 	m_fMass = 1.0f;
+	m_v3PinStart = m_v3Position;
 }
 void MySolver::Swap(MySolver& other)
 {
@@ -56,11 +57,11 @@ bool Simplex::MySolver::GetLane(void)
 
 void Simplex::MySolver::SetPin(bool a_bIsPin)
 {
+	m_bPin = a_bIsPin;
 }
-
 bool Simplex::MySolver::GetPin(void)
 {
-	return false;
+	return m_bPin;
 }
 
 void MySolver::SetVelocity(vector3 a_v3Velocity) { m_v3Velocity = a_v3Velocity; }
@@ -122,10 +123,27 @@ void MySolver::Update(void)
 
 	if (this->m_bPin)
 	{
-		if (this->m_bPinStartFalling && this->m_bPinFalling)
+		switch (m_uPinState)
 		{
-			//vector3 
+			// checking for if they have move a certain distance from their starting location
+			case 0:
+				magStorage = m_v3Position - m_v3PinStart;
+				magnitude = glm::sqrt(glm::pow2(magStorage.x) + glm::pow2(magStorage.y) + glm::pow2(magStorage.z));
+
+				if (magnitude > 5)
+					m_uPinState++;
+
+				break;
+			// Store velocity direction
+			case 1:
+				break;
+			case 2:
+				break;
+			default:
+				break;
 		}
+
+		std::cout << "Pin State:" << m_uPinState << std::endl;
 	}
 
 	m_v3Velocity = RoundSmallVelocity(m_v3Velocity, 0.028f);
