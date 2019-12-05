@@ -318,6 +318,43 @@ void Simplex::MyEntity::Update(void)
 	{
 		m_pSolver->Update();
 		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
+
+		if (this->m_bPin)
+		{
+			switch (m_uPinState)
+			{
+				// stores start position
+				case 0:
+					m_v3PinStart = GetPosition();
+					m_uPinState++;
+					break;
+
+				// checking for if they have move a certain distance from their starting location
+				case 1:
+					magStorage = GetPosition() - m_v3PinStart;
+					magnitude = glm::sqrt(glm::pow2(magStorage.x) + glm::pow2(magStorage.y) + glm::pow2(magStorage.z));
+					if (magnitude > 5)
+						m_uPinState++;
+					break;
+
+				// Store velocity direction
+				case 2:
+					m_v3PinDirection = glm::normalize(m_pSolver->GetVelocity());
+					m_uPinState++;
+					break;
+
+				// Rotate in the direction of the velocity until 90 degrees
+				case 3:
+
+					break;
+
+				// do nothing if cycle is finished
+				default:
+					break;
+			}
+
+			std::cout << "Pin State:" << m_uPinState << std::endl;
+		}
 	}
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
@@ -334,4 +371,13 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
 	m_bUsePhysicsSolver = a_bUse;
+}
+
+void Simplex::MyEntity::SetPin(bool a_bIsPin)
+{
+	m_bPin = a_bIsPin;
+}
+bool Simplex::MyEntity::GetPin(void)
+{
+	return m_bPin;
 }

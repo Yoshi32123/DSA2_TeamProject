@@ -33,6 +33,14 @@ namespace Simplex
 
 		MySolver* m_pSolver = nullptr; //Physics MySolver
 
+		// pin helper fields
+		bool m_bPin = false;
+		uint m_uPinState = 0;
+		vector3 m_v3PinStart = ZERO_V3;
+		vector3 magStorage = ZERO_V3;
+		uint magnitude = 0;
+		vector3 m_v3PinDirection;
+
 		sf::SoundBuffer m_ballPinSoundBuffer; //buffer to play sound from
 		sf::Sound m_ballPinSound; //buffer to play sound from
 		bool m_bSoundPlayed = false; 
@@ -282,7 +290,18 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void UsePhysicsSolver(bool a_bUse = true);
-
+		/*
+		USAGE: Sets the Size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		void SetPin(bool a_bIsPin);
+		/*
+		USAGE: Gets the size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		bool GetPin(void);
 	private:
 		/*
 		Usage: Deallocates member fields

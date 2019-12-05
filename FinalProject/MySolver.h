@@ -1,6 +1,6 @@
 /*----------------------------------------------
-Programmer: Alberto Bobadilla (labigm@gmail.com)
-Date: 2017/07
+Programmer: Kyler McQuillan (kjm7088@g.rit.com)
+Date: 2019/12
 ----------------------------------------------*/
 #ifndef __MYSOLVER_H_
 #define __MYSOLVER_H_
@@ -18,12 +18,16 @@ namespace Simplex
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
 		bool m_bLane = false;
+		float m_fFriction;
+
+		// pin helper fields
 		bool m_bPin = false;
 		bool m_bBall = false; 
 		uint m_uPinState = 0;
 		vector3 m_v3PinStart = ZERO_V3;
 		vector3 magStorage = ZERO_V3;
 		uint magnitude = 0;
+		vector3 m_v3PinDirection;
 		float m_fFriction;
 
 	public:
@@ -171,12 +175,6 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void ResolveCollision(MySolver* a_pOther);
-		/*
-		USAGE: Rotates the pins if the deviate a certain distance from their start
-		ARGUMENTS: ---
-		OUTPUT: ---
-		*/
-		void PinFallOver();
 	private:
 		/*
 		Usage: Deallocates member fields
