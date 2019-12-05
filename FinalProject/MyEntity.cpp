@@ -316,11 +316,22 @@ void Simplex::MyEntity::Update(void)
 {
 	if (m_bUsePhysicsSolver)
 	{
-		m_pSolver->Update();
-		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
-
 		if (this->m_bPin)
 		{
+			/*static DWORD DStartingTime = GetTickCount();
+			DWORD DCurrentTime = GetTickCount64();
+			DWORD DDelta = DCurrentTime - DStartingTime;
+			float fTimer = static_cast<float>(DDelta / 1000.0f);
+
+			float fTotalTime = 1.5f;
+			float fPercent = MapValue(fTimer, 0.0f, fTotalTime, 0.0f, 1.0f);
+
+			static float fStart = 0.0f;
+			static float fEnd = 90.0f;
+
+			float fCurrent;
+			matrix4 m4Rotation;*/
+
 			switch (m_uPinState)
 			{
 				// stores start position
@@ -341,13 +352,19 @@ void Simplex::MyEntity::Update(void)
 				case 2:
 					m_v3PinDirection = glm::normalize(m_pSolver->GetVelocity());
 					m_v3PinUpVec = glm::normalize(vector3(GetPosition().x, GetPosition().y + 5, GetPosition().z) - GetPosition());
+					right = glm::cross(m_v3PinDirection, m_v3PinUpVec);
 					m_uPinState++;
 					break;
 
 				// Rotate in the direction of the velocity ~until~ 90 degrees
 				case 3:
-					vector3 right = glm::cross(m_v3PinDirection, m_v3PinUpVec);
-					//glm::rotate(m_m4ToWorld, PI / 2, right);
+					//fCurrent = glm::lerp(fStart, fEnd, fPercent);
+					//m4Rotation = glm::rotate(IDENTITY_M4, glm::radians(fCurrent), right);
+					//m_m4ToWorld *= m4Rotation;
+					m_m4rotMat = glm::rotate(IDENTITY_M4, glm::radians(90.0f), right);
+					m_m4ToWorld *= m_m4rotMat;
+					m_pRigidBody->SetModelMatrix(m_m4ToWorld);
+
 					break;
 
 				// do nothing if cycle is finished
@@ -357,6 +374,9 @@ void Simplex::MyEntity::Update(void)
 
 			std::cout << "Pin State:" << m_uPinState << std::endl;
 		}
+
+		m_pSolver->Update();
+		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
 	}
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)

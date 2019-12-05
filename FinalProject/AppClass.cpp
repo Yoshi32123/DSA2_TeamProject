@@ -114,10 +114,10 @@ void Application::InitVariables(void)
 	m_pEntityMngr->GetEntity(10)->GetSolver()->SetMass(fPinMass);
 	m_lPinLocations.push_back(v3Position);
 
-	m_pEntityMngr->GetEntity(uAlleyStartIndex)->SetPin(true);
+	//m_pEntityMngr->GetEntity(uAlleyStartIndex)->SetPin(true);
 	for (int i = 0; i < uPinCount; i++)
 	{
-		//m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetPin(true);
+		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->SetPin(true);
 	}
 #pragma endregion
 
@@ -502,16 +502,16 @@ void Application::Update(void)
 	// See if the bowling ball is at or past the position of the first pin
 	if (!m_bRandomCrapMade && m_pEntityMngr->GetEntity(0)->GetPosition().z <= 50.0f) 
 	{
-		m_bRandomCrapDestroyed = false;
-		m_bRandomCrapMade = true;
+		//m_bRandomCrapDestroyed = false;
+		//m_bRandomCrapMade = true;
 
-		// Make the random crap thing and give it a big boy mass
-		m_pEntityMngr->AddEntity("Objects\\ThingyModel.obj", "randomThing");
-		m_v3BowlingAlley = vector3(0.0f, 5.25f, 51.0f);
-		matrix4 m4Position = glm::translate(m_v3BowlingAlley);
-		m_pEntityMngr->SetModelMatrix(m4Position);
-		m_pEntityMngr->UsePhysicsSolver();
-		m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex("randomThing"))->GetSolver()->SetMass(1000.0f);
+		//// Make the random crap thing and give it a big boy mass
+		//m_pEntityMngr->AddEntity("Objects\\ThingyModel.obj", "randomThing");
+		//m_v3BowlingAlley = vector3(0.0f, 5.25f, 51.0f);
+		//matrix4 m4Position = glm::translate(m_v3BowlingAlley);
+		//m_pEntityMngr->SetModelMatrix(m4Position);
+		//m_pEntityMngr->UsePhysicsSolver();
+		//m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex("randomThing"))->GetSolver()->SetMass(1000.0f);
 
 		
 	}
