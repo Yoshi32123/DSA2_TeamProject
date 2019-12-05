@@ -160,12 +160,6 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void ResolveCollision(MySolver* a_pOther);
-		/*
-		USAGE: Rotates the pins if the deviate a certain distance from their start
-		ARGUMENTS: ---
-		OUTPUT: ---
-		*/
-		void PinFallOver();
 	private:
 		/*
 		Usage: Deallocates member fields

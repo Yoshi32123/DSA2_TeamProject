@@ -120,41 +120,6 @@ void MySolver::Update(void)
 	else
 		ApplyFriction(0.015f);
 
-	if (this->m_bPin)
-	{
-		switch (m_uPinState)
-		{
-			// stores start position
-			case 0:
-				m_v3PinStart = m_v3Position;
-				m_uPinState++;
-				break;
-
-			// checking for if they have move a certain distance from their starting location
-			case 1:
-				magStorage = m_v3Position - m_v3PinStart;
-				magnitude = glm::sqrt(glm::pow2(magStorage.x) + glm::pow2(magStorage.y) + glm::pow2(magStorage.z));
-				if (magnitude > 5)
-					m_uPinState++;
-				break;
-
-			// Store velocity direction
-			case 2:
-				m_v3PinDirection = glm::normalize(m_v3Velocity);
-				m_uPinState++;
-				break;
-
-			// Rotate in the direction of the velocity until 90 degrees
-			case 3:
-
-				break;
-			default:
-				break;
-		}
-
-		std::cout << "Pin State:" << m_uPinState << std::endl;
-	}
-
 	m_v3Velocity = RoundSmallVelocity(m_v3Velocity, 0.028f);
 
 	m_v3Position += m_v3Velocity;
@@ -197,10 +162,4 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 	v3Direction *= 0.05f;
 	ApplyForce(v3Direction);
 	a_pOther->ApplyForce(-v3Direction);
-}
-void MySolver::PinFallOver()
-{
-	vector3 m_v3VelocityDir = glm::normalize(m_v3Velocity);
-
-
 }
