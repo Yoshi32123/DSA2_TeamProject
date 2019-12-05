@@ -39,7 +39,8 @@ namespace Simplex
 		vector3 m_v3PinStart = ZERO_V3;
 		vector3 magStorage = ZERO_V3;
 		uint magnitude = 0;
-		vector3 m_v3PinDirection;
+		vector3 m_v3PinDirection = ZERO_V3;
+		vector3 m_v3PinUpVec = ZERO_V3;
 
 		sf::SoundBuffer m_ballPinSoundBuffer; //buffer to play sound from
 		sf::Sound m_ballPinSound; //buffer to play sound from

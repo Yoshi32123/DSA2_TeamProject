@@ -337,15 +337,17 @@ void Simplex::MyEntity::Update(void)
 						m_uPinState++;
 					break;
 
-				// Store velocity direction
+				// Store velocity direction and up vector
 				case 2:
 					m_v3PinDirection = glm::normalize(m_pSolver->GetVelocity());
+					m_v3PinUpVec = glm::normalize(vector3(GetPosition().x, GetPosition().y + 5, GetPosition().z) - GetPosition());
 					m_uPinState++;
 					break;
 
-				// Rotate in the direction of the velocity until 90 degrees
+				// Rotate in the direction of the velocity ~until~ 90 degrees
 				case 3:
-
+					vector3 right = glm::cross(m_v3PinDirection, m_v3PinUpVec);
+					//glm::rotate(m_m4ToWorld, PI / 2, right);
 					break;
 
 				// do nothing if cycle is finished
