@@ -6,10 +6,10 @@ Date: 2017/07
 #define __MYSOLVER_H_
 
 #include "MyRigidBody.h"
+using namespace Simplex;
 
 namespace Simplex
 {
-
 	class MySolver
 	{
 		vector3 m_v3Acceleration = ZERO_V3; //Acceleration of the MySolver
@@ -19,11 +19,13 @@ namespace Simplex
 		float m_fMass = 1.0f; //Mass of the solver
 		bool m_bLane = false;
 		bool m_bPin = false;
+		bool m_bBall = false; 
 		uint m_uPinState = 0;
 		vector3 m_v3PinStart = ZERO_V3;
 		vector3 magStorage = ZERO_V3;
 		uint magnitude = 0;
 		float m_fFriction;
+
 	public:
 		/*
 		USAGE: Constructor
@@ -101,11 +103,23 @@ namespace Simplex
 		*/
 		void SetPin(bool a_bIsPin);
 		/*
+		USAGE: Sets the Size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		void SetBall(bool a_bIsBall);
+		/*
 		USAGE: Gets the size of the solver
 		ARGUMENTS: ---
 		OUTPUT: ---
 		*/
 		bool GetPin(void);
+		/*
+		USAGE: Gets the size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		bool GetBall(void);
 
 		/*
 		USAGE: Sets the velocity of the solver

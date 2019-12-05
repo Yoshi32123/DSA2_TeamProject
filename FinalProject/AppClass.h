@@ -83,10 +83,8 @@ private:
 	ControllerInput* m_pController[8]; //Controller
 	uint m_uActCont = 0; //Active Controller of the Application
 
-	sf::SoundBuffer m_ballPinSoundBuffer; //buffer to play sound from
 	sf::SoundBuffer m_ballRollingSoundBuffer; //buffer to play sound from
-	sf::Sound m_ballPinSound; //sound effect
-	sf::Sound m_ballRollingSound; 
+	sf::Sound m_ballRollingSound; //sound effect
 	//sf::Music m_soundBGM; //background music
 
 public:

@@ -59,10 +59,19 @@ void Simplex::MySolver::SetPin(bool a_bIsPin)
 {
 	m_bPin = a_bIsPin;
 }
+void Simplex::MySolver::SetBall(bool a_bIsBall)
+{
+	m_bBall = a_bIsBall;
+}
 bool Simplex::MySolver::GetPin(void)
 {
 	return m_bPin;
 }
+bool Simplex::MySolver::GetBall(void)
+{
+	return m_bBall;
+}
+
 
 void MySolver::SetVelocity(vector3 a_v3Velocity) { m_v3Velocity = a_v3Velocity; }
 vector3 MySolver::GetVelocity(void) { return m_v3Velocity; }

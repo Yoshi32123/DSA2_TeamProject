@@ -6,6 +6,7 @@ Date: 2017/07
 #define __MYENTITY_H_
 
 #include "MySolver.h"
+#include "SFML\Audio.hpp"
 
 namespace Simplex
 {
@@ -31,6 +32,10 @@ namespace Simplex
 		bool m_bUsePhysicsSolver = false; //Indicates if we will use a physics solver 
 
 		MySolver* m_pSolver = nullptr; //Physics MySolver
+
+		sf::SoundBuffer m_ballPinSoundBuffer; //buffer to play sound from
+		sf::Sound m_ballPinSound; //buffer to play sound from
+		bool m_bSoundPlayed = false; 
 
 	public:
 		/*
@@ -89,6 +94,16 @@ namespace Simplex
 		OUTPUT: Rigid Body
 		*/
 		MyRigidBody* GetRigidBody(void);
+		/*
+		USAGE: Sets Sound and Sound Buffer
+		ARGUMENTS: Filename to load the sound from
+		*/
+		void SetSoundBufferAndSound(std::string a_sFilename);
+		/*
+		USAGE: Resets sound played bool
+		ARGUMENTS: ---
+		*/
+		void ResetSoundPlayed();
 		/*
 		USAGE: Will reply to the question, is the MyEntity Initialized?
 		ARGUMENTS: ---

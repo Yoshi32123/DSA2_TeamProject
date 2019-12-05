@@ -183,6 +183,14 @@ void Simplex::MyEntity::GenUniqueID(String& a_sUniqueID)
 	}
 	return;
 }
+void Simplex::MyEntity::SetSoundBufferAndSound(std::string a_sFilename) {
+	m_ballPinSoundBuffer.loadFromFile(a_sFilename);
+	m_ballPinSound = sf::Sound(m_ballPinSoundBuffer);
+}
+void Simplex::MyEntity::ResetSoundPlayed() {
+	m_bSoundPlayed = false;
+}
+
 void Simplex::MyEntity::AddDimension(uint a_uDimension)
 {
 	//we need to check that this dimension is not already allocated in the list
@@ -316,6 +324,10 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 {
 	if (m_bUsePhysicsSolver)
 	{
+		if (this->GetSolver()->GetBall() && a_pOther->GetSolver()->GetPin() && !m_bSoundPlayed) {
+			m_ballPinSound.play();
+			m_bSoundPlayed = true;
+		}
 		m_pSolver->ResolveCollision(a_pOther->GetSolver());
 	}
 }
