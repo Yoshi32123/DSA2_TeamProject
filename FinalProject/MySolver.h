@@ -28,7 +28,6 @@ namespace Simplex
 		vector3 magStorage = ZERO_V3;
 		uint magnitude = 0;
 		vector3 m_v3PinDirection;
-		float m_fFriction;
 
 	public:
 		/*
