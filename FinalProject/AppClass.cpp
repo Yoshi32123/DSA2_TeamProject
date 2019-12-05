@@ -23,7 +23,8 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 	m_pEntityMngr->GetEntity(0)->GetSolver()->SetMass(16.0f);
-	//m_pEntityMngr->GetEntity(0)->SetBall
+	m_pEntityMngr->GetEntity(0)->GetSolver()->SetBall(true); 
+	m_pEntityMngr->GetEntity(0)->SetSoundBufferAndSound("Bowling_Pins_Strike_Sound_Effect.mp3");
 
 	float fLaneHeight = 2.5f;
 	float fPinMass = 3.0f;
@@ -512,7 +513,7 @@ void Application::Update(void)
 			if (m_uTimesBowled == 2)
 			{
 				m_uTimesBowled = 0;
-				
+				m_pEntityMngr->GetEntity(0)->ResetSoundPlayed(); 
 
 				for (int i = 0; i < uPinCount; i++)
 				{
