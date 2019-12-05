@@ -2,6 +2,12 @@
 using namespace Simplex;
 void Application::InitVariables(void)
 {
+	m_ballPinSoundBuffer.loadFromFile("Bowling_Pins_Strike_Sound_Effect.mp3"); 
+	m_ballRollingSoundBuffer.loadFromFile("Bowling_Ball_Rolling_Sound_Effect.mp3");
+
+	m_ballPinSound = sf::Sound(m_ballPinSoundBuffer); 
+	m_ballRollingSound = sf::Sound(m_ballRollingSoundBuffer); 
+
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
 		vector3(0.0f, 8.0f, 100.0f), //Position

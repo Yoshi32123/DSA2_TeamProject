@@ -128,6 +128,8 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 	case sf::Keyboard::Space:
 		if (m_bCanBowl)
 		{
+			//should work but can't hear it in class
+			m_ballRollingSound.play();
 			m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -20.0f), "Ball");
 			m_bCanBowl = false;
 			m_bStartTimeTrack = true;
