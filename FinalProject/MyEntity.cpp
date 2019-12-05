@@ -183,6 +183,14 @@ void Simplex::MyEntity::GenUniqueID(String& a_sUniqueID)
 	}
 	return;
 }
+void Simplex::MyEntity::SetSoundBufferAndSound(std::string a_sFilename) {
+	m_ballPinSoundBuffer.loadFromFile(a_sFilename);
+	m_ballPinSound = sf::Sound(m_ballPinSoundBuffer);
+}
+void Simplex::MyEntity::ResetSoundPlayed() {
+	m_bSoundPlayed = false;
+}
+
 void Simplex::MyEntity::AddDimension(uint a_uDimension)
 {
 	//we need to check that this dimension is not already allocated in the list
@@ -310,16 +318,67 @@ void Simplex::MyEntity::Update(void)
 	{
 		m_pSolver->Update();
 		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
+
+		if (this->m_bPin)
+		{
+			switch (m_uPinState)
+			{
+				// stores start position
+				case 0:
+					m_v3PinStart = GetPosition();
+					m_uPinState++;
+					break;
+
+				// checking for if they have move a certain distance from their starting location
+				case 1:
+					magStorage = GetPosition() - m_v3PinStart;
+					magnitude = glm::sqrt(glm::pow2(magStorage.x) + glm::pow2(magStorage.y) + glm::pow2(magStorage.z));
+					if (magnitude > 5)
+						m_uPinState++;
+					break;
+
+				// Store velocity direction
+				case 2:
+					m_v3PinDirection = glm::normalize(m_pSolver->GetVelocity());
+					m_uPinState++;
+					break;
+
+				// Rotate in the direction of the velocity until 90 degrees
+				case 3:
+
+					break;
+
+				// do nothing if cycle is finished
+				default:
+					break;
+			}
+
+			std::cout << "Pin State:" << m_uPinState << std::endl;
+		}
 	}
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 {
 	if (m_bUsePhysicsSolver)
 	{
+		if (this->GetSolver()->GetBall() && a_pOther->GetSolver()->GetPin() && !m_bSoundPlayed) {
+			m_ballPinSound.play();
+			std::cout << "Play Sound" << std::endl;
+			m_bSoundPlayed = true;
+		}
 		m_pSolver->ResolveCollision(a_pOther->GetSolver());
 	}
 }
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
 	m_bUsePhysicsSolver = a_bUse;
+}
+
+void Simplex::MyEntity::SetPin(bool a_bIsPin)
+{
+	m_bPin = a_bIsPin;
+}
+bool Simplex::MyEntity::GetPin(void)
+{
+	return m_bPin;
 }

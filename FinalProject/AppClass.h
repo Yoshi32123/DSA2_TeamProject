@@ -86,9 +86,9 @@ private:
 	ControllerInput* m_pController[8]; //Controller
 	uint m_uActCont = 0; //Active Controller of the Application
 
-	sf::SoundBuffer m_soundBuffer; //buffer to play sound from
-	sf::Sound m_sound; //sound effect
-	sf::Music m_soundBGM; //background music
+	sf::SoundBuffer m_ballRollingSoundBuffer; //buffer to play sound from
+	sf::Sound m_ballRollingSound; //sound effect
+	//sf::Music m_soundBGM; //background music
 
 public:
 #pragma region Constructor / Run / Destructor

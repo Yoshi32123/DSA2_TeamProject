@@ -1,0 +1,55 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "glm_dummy::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-glm_dummy-Debug-1ddcad11d6057976a7ca.json",
+					"name" : "glm_dummy",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Profiles/jzw5422/source/repos/Yoshi32123/DSA2_TeamProject/include/glm/out/build/x86-Debug",
+		"source" : "D:/Profiles/jzw5422/source/repos/Yoshi32123/DSA2_TeamProject/include/glm"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

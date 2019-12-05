@@ -1,15 +1,15 @@
 /*----------------------------------------------
-Programmer: Alberto Bobadilla (labigm@gmail.com)
-Date: 2017/07
+Programmer: Kyler McQuillan (kjm7088@g.rit.com)
+Date: 2019/12
 ----------------------------------------------*/
 #ifndef __MYSOLVER_H_
 #define __MYSOLVER_H_
 
 #include "MyRigidBody.h"
+using namespace Simplex;
 
 namespace Simplex
 {
-
 	class MySolver
 	{
 		vector3 m_v3Acceleration = ZERO_V3; //Acceleration of the MySolver
@@ -18,10 +18,17 @@ namespace Simplex
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
 		bool m_bLane = false;
-		bool m_bPin = false;
-		bool m_bPinFalling = false;
-		bool m_bPinStartFalling = false;
 		float m_fFriction;
+
+		// pin helper fields
+		bool m_bPin = false;
+		bool m_bBall = false; 
+		uint m_uPinState = 0;
+		vector3 m_v3PinStart = ZERO_V3;
+		vector3 magStorage = ZERO_V3;
+		uint magnitude = 0;
+		vector3 m_v3PinDirection;
+
 	public:
 		/*
 		USAGE: Constructor
@@ -99,11 +106,23 @@ namespace Simplex
 		*/
 		void SetPin(bool a_bIsPin);
 		/*
+		USAGE: Sets the Size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		void SetBall(bool a_bIsBall);
+		/*
 		USAGE: Gets the size of the solver
 		ARGUMENTS: ---
 		OUTPUT: ---
 		*/
 		bool GetPin(void);
+		/*
+		USAGE: Gets the size of the solver
+		ARGUMENTS: ---
+		OUTPUT: ---
+		*/
+		bool GetBall(void);
 
 		/*
 		USAGE: Sets the velocity of the solver
@@ -155,12 +174,6 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void ResolveCollision(MySolver* a_pOther);
-		/*
-		USAGE: Rotates the pins if the deviate a certain distance from their start
-		ARGUMENTS: ---
-		OUTPUT: ---
-		*/
-		void PinFallOver();
 	private:
 		/*
 		Usage: Deallocates member fields
