@@ -7,7 +7,6 @@ void MySolver::Init(void)
 	m_v3Position = ZERO_V3;
 	m_v3Velocity = ZERO_V3;
 	m_fMass = 1.0f;
-	m_v3PinStart = m_v3Position;
 }
 void MySolver::Swap(MySolver& other)
 {
@@ -125,19 +124,29 @@ void MySolver::Update(void)
 	{
 		switch (m_uPinState)
 		{
-			// checking for if they have move a certain distance from their starting location
+			// stores start position
 			case 0:
+				m_v3PinStart = m_v3Position;
+				m_uPinState++;
+				break;
+
+			// checking for if they have move a certain distance from their starting location
+			case 1:
 				magStorage = m_v3Position - m_v3PinStart;
 				magnitude = glm::sqrt(glm::pow2(magStorage.x) + glm::pow2(magStorage.y) + glm::pow2(magStorage.z));
-
 				if (magnitude > 5)
 					m_uPinState++;
+				break;
 
-				break;
 			// Store velocity direction
-			case 1:
-				break;
 			case 2:
+				m_v3PinDirection = glm::normalize(m_v3Velocity);
+				m_uPinState++;
+				break;
+
+			// Rotate in the direction of the velocity until 90 degrees
+			case 3:
+
 				break;
 			default:
 				break;

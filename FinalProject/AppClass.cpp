@@ -109,9 +109,10 @@ void Application::InitVariables(void)
 	m_pEntityMngr->GetEntity(10)->GetSolver()->SetMass(fPinMass);
 	m_lPinLocations.push_back(v3Position);
 
+	m_pEntityMngr->GetEntity(uAlleyStartIndex)->GetSolver()->SetPin(true);
 	for (int i = 0; i < uPinCount; i++)
 	{
-		m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetPin(true);
+		//m_pEntityMngr->GetEntity(i + uAlleyStartIndex)->GetSolver()->SetPin(true);
 	}
 #pragma endregion
 
