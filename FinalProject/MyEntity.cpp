@@ -365,6 +365,7 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 	{
 		if (this->GetSolver()->GetBall() && a_pOther->GetSolver()->GetPin() && !m_bSoundPlayed) {
 			m_ballPinSound.play();
+			std::cout << "Play Sound" << std::endl;
 			m_bSoundPlayed = true;
 		}
 		m_pSolver->ResolveCollision(a_pOther->GetSolver());

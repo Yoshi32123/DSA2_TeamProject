@@ -23,7 +23,8 @@ void Application::InitVariables(void)
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 	m_pEntityMngr->GetEntity(0)->GetSolver()->SetMass(16.0f);
-	//m_pEntityMngr->GetEntity(0)->SetBall
+	m_pEntityMngr->GetEntity(0)->GetSolver()->SetBall(true); 
+	m_pEntityMngr->GetEntity(0)->SetSoundBufferAndSound("Bowling_Pins_Strike_Sound_Effect.mp3");
 
 	float fLaneHeight = 2.5f;
 	float fPinMass = 3.0f;
@@ -497,6 +498,24 @@ void Application::Update(void)
 		m_bBumpersMade = false;
 	}
 
+	// Set up the random crap thing that will try the pins from flying forward
+	// See if the bowling ball is at or past the position of the first pin
+	if (!m_bRandomCrapMade && m_pEntityMngr->GetEntity(0)->GetPosition().z <= 50.0f) 
+	{
+		m_bRandomCrapDestroyed = false;
+		m_bRandomCrapMade = true;
+
+		// Make the random crap thing and give it a big boy mass
+		m_pEntityMngr->AddEntity("Objects\\ThingyModel.obj", "randomThing");
+		m_v3BowlingAlley = vector3(0.0f, 5.25f, 51.0f);
+		matrix4 m4Position = glm::translate(m_v3BowlingAlley);
+		m_pEntityMngr->SetModelMatrix(m4Position);
+		m_pEntityMngr->UsePhysicsSolver();
+		m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex("randomThing"))->GetSolver()->SetMass(1000.0f);
+
+		
+	}
+
 	// If the ball cannot be bowled, that means that it is currently being bowled so all positions and fields should be updated
 	if (!m_bCanBowl)
 	{
@@ -508,11 +527,19 @@ void Application::Update(void)
 			m_uTimeBowled = 0;
 			m_uTimeSinceBowled = 0;
 			m_bCanBowl = true;
+			m_bCanCurve = false;
+
+			if (!m_bRandomCrapDestroyed) 
+			{
+				m_pEntityMngr->RemoveEntity("randomThing");
+				m_bRandomCrapDestroyed = true;
+				m_bRandomCrapMade = false;
+			}
 
 			if (m_uTimesBowled == 2)
 			{
 				m_uTimesBowled = 0;
-				
+				m_pEntityMngr->GetEntity(0)->ResetSoundPlayed(); 
 
 				for (int i = 0; i < uPinCount; i++)
 				{

@@ -132,6 +132,7 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 			m_ballRollingSound.play();
 			m_pEntityMngr->ApplyForce(vector3(0.0f, 0.0f, -20.0f), "Ball");
 			m_bCanBowl = false;
+			m_bCanCurve = true;
 			m_bStartTimeTrack = true;
 			m_uTimesBowled++;
 			break;
@@ -479,6 +480,14 @@ void Application::ProcessKeyboard(void)
 			m_v3BowlingBall.x += fBallMove;
 	}
 	else if (m_bCanBowl)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			m_v3BowlingBall.x -= fBallMove;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			m_v3BowlingBall.x += fBallMove;
+	}
+
+	else if (m_bCanCurve) 
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			m_v3BowlingBall.x -= fBallMove;
