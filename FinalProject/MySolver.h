@@ -19,8 +19,10 @@ namespace Simplex
 		float m_fMass = 1.0f; //Mass of the solver
 		bool m_bLane = false;
 		bool m_bPin = false;
-		bool m_bPinFalling = false;
-		bool m_bPinStartFalling = false;
+		uint m_uPinState = 0;
+		vector3 m_v3PinStart = ZERO_V3;
+		vector3 magStorage = ZERO_V3;
+		uint magnitude = 0;
 		float m_fFriction;
 	public:
 		/*
