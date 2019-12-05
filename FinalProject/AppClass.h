@@ -30,10 +30,13 @@ class Application
 	vector3 m_v3BowlingAlley; // Bowling alley position
 	bool m_bManualMove = true; //Toggles manual ball movement
 	bool m_bCanBowl = true; //Toggles bowling with space functionality
+	bool m_bCanCurve = false; // Toggle curving ability after the ball has been bowled
 	bool m_bStartTimeTrack = false; //starts time tracking for time since bowled
 	bool m_bBumpersEnabled = false; //Toggles bumpers
 	bool m_bBumpersMade = false; // Bool so that bumpers aren't made each frame
 	bool m_bBumpersDestroyed = true; // Bool so that bumpers aren't destroyed each frame
+	bool m_bRandomCrapMade = false; // Bool so that the random crap thing isn't made each frame
+	bool m_bRandomCrapDestroyed = true; // Bool so that the random crap thing isn't destroyed each frame
 	uint m_uTimeBowled = 0; //Start time for when space was pressed to bowl
 	uint m_uTimeSinceBowled = 0; //Time since space was pressed to bowl
 	uint m_uTimesBowled = 0; //Tracks times bowled for resetting pins
