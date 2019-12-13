@@ -121,7 +121,7 @@ void MySolver::Update(void)
 
 	m_v3Velocity += m_v3Acceleration;
 
-	float fMaxVelocity = 5.0f;
+	float fMaxVelocity = 8.0f;
 	m_v3Velocity = CalculateMaxVelocity(m_v3Velocity, fMaxVelocity);
 
 	if (this->m_v3Position.y == 0.0f)
@@ -166,6 +166,12 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 
 		vector3 m_v3VelDirOther = (-m_v3Velocity * 0.1) * v3Direction;
 		a_pOther->ApplyForce(fMassThis * m_v3VelDirOther / fCollisionTime);
+	}
+	else
+	{
+		v3Direction *= 0.05f;
+		ApplyForce(v3Direction);
+		a_pOther->ApplyForce(-v3Direction);
 	}
 
 	v3Direction *= 0.05f;

@@ -372,7 +372,7 @@ void Simplex::MyEntity::Update(void)
 					break;
 			}
 
-			std::cout << "Pin State:" << m_uPinState << std::endl;
+			//std::cout << "Pin State:" << m_uPinState << std::endl;
 		}
 
 		m_pSolver->Update();
